@@ -1,10 +1,15 @@
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Date;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 public class ValidateHolidayRequest
 {
-  public static HolidayRequestExceptionMsg HREM 
+  private static String[]
+    monthNoValue = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec"};
+    
+    public static HolidayRequestExceptionMsg HREM 
                   = new HolidayRequestExceptionMsg();
   //Check if a given interval is possible to be a driver holiday
   //Written by: Oak. Last modified: 17/02/13
@@ -19,17 +24,25 @@ public class ValidateHolidayRequest
         = new Date(dateFrom.getYear(), 11, 31, 0, 0, 0);
       Date startOfNextYear 
         = new Date(dateTo.getYear(), 0, 1, 0, 0, 0);
-      if(!validateHolidayLength(dateFrom, endOfThisYear))
+      if(!validateHolidayLength(dateFrom, endOfThisYear, driverID))
+      {
         return false;
-      else if(!validateHolidayLength(startOfNextYear, dateTo))
-        return false;        
+      }
+      else if(!validateHolidayLength(startOfNextYear, dateTo, driverID))
+      {
+        return false;    
+      }
     }//if
-    if(!validateHolidayLength(dateFrom, dateTo))
+    if(!validateHolidayLength(dateFrom, dateTo, driverID))
+    {
       return false;
+    }
     
     //check if max driver at each DATE interval
     if(!checkDateInterval(dateFrom, dateTo))
+    {
       return false;
+    }
       
     System.out.println("The request is valid");
     return true;  
@@ -50,7 +63,9 @@ public class ValidateHolidayRequest
     {
       System.out.println("Checking: " + currentDate.getDate());
       if(!dateAvailable(currentDate)) 
-        return false;     
+      {
+        return false;  
+      }
       
       currentCal.add(Calendar.DATE, 1);
       currentDate.setDate(currentCal.get(Calendar.DATE));
@@ -69,7 +84,9 @@ public class ValidateHolidayRequest
     for (int i=0; i<driverIDs.length; i++)
     {
       if(!(DriverInfo.isAvailable(driverIDs[i], givenDate)))
-        notAvailable++;     
+      {
+        notAvailable++; 
+      }
     }//for
     if(notAvailable > 9) 
     {
@@ -86,12 +103,11 @@ public class ValidateHolidayRequest
   //Check if the requested holiday length is valid
   //Written by: Oak. Last modified: 17/02/13
   public static boolean validateHolidayLength
-    (Date dateFrom, Date dateTo)
+    (Date dateFrom, Date dateTo, int driverID)
   {
-    /*
-    int interval = Nathan method
+    int interval = calculateInterval(dateFrom, dateTo);   
     //How many days does the driver have left for his holiday
-    int maxHoliday = DriverInto.getHolidaysTaken(driverID) - 25;
+    int maxHoliday = DriverInfo.getHolidaysTaken(driverID) - 25;
     if(interval > maxHoliday)
     {
       HREM.lengthExceptionMsg = 
@@ -101,11 +117,43 @@ public class ValidateHolidayRequest
          (maxHoliday > 1? "days ": "day "));    
       return false;
     }
-    */
     return true;
   }//validateHolidayLength
   
-  //Written by: Nathan. Last modified: ?
-  //public static boolean checkDateLength()
+  //Written by: Nathan. Last modified: 18/02/13
+  public static DateTime dateToDateTime(Date date)
+  {
+      String dateString = date.toString();
+      //System.out.println(dateString);
+      String dateStringArray[] = dateString.split(" ", 6);
+      //System.out.println(dateStringArray[1] + dateStringArray[2] + dateStringArray[5]);
+      int newMonth = 0;
+      for(int i = 0; i < monthNoValue.length; i++)
+      {
+          if(monthNoValue[i].equals(dateStringArray[1]))
+          {
+              newMonth = i + 1;
+          }
+      }
+      int newDay = Integer.parseInt(dateStringArray[2]);
+      int newYear = Integer.parseInt(dateStringArray[5]);
+      newYear -= 1900;
+      return new DateTime(newYear, newMonth, newDay, 0, 0);
+  }
   
+  //Written by: Nathan. Last modified: 18/02/13
+  public static int calculateInterval(Date dateFrom, Date dateTo)
+  {
+      if(dateFrom.equals(dateTo))
+      {
+          return 1;
+      }
+      
+      DateTime dateTimeFrom = dateToDateTime(dateFrom);
+      DateTime dateTimeTo = dateToDateTime(dateTo);
+      // return days between + 1 becasue want to include the dateFrom and dateTo
+      // in the interval
+      return Days.daysBetween(dateTimeFrom, dateTimeTo).getDays() + 1;
+      
+  }  
 }//class
