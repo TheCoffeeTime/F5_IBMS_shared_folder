@@ -9,8 +9,8 @@ public class ValidateHolidayRequest
   private static String[]
     monthNoValue = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec"};
     
-    public static HolidayRequestExceptionMsg HREM 
-                  = new HolidayRequestExceptionMsg();
+    public static SystemMsg systemMsg 
+                  = new SystemMsg();
   //Check if a given interval is possible to be a driver holiday
   //Written by: Oak. Last modified: 17/02/13
   public static boolean validateRequest
@@ -92,7 +92,7 @@ public class ValidateHolidayRequest
     }//for
     if(notAvailable > 9) 
     {
-      HREM.dateExceptionMsg = ("Date: " + givenDate.getDate() + "/" +
+      systemMsg .message =("Date: " + givenDate.getDate() + "/" +
                               givenDate.getMonth() + "/" + 
                               givenDate.getYear() + 
                               " is NOT available");
@@ -124,7 +124,7 @@ public class ValidateHolidayRequest
     System.out.println("Max Holiday = " + maxHoliday);
     if(interval > maxHoliday)
     {
-      HREM.lengthExceptionMsg = 
+      systemMsg .message = 
         ("You have requested " + interval + 
          (interval > 1? "days ": "day ") + "for " + dateTo.getYear() +
          ", while the maximum is " + maxHoliday + 
