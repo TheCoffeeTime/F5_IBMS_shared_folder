@@ -26,17 +26,20 @@ public class ValidateHolidayRequest
         = new Date(dateTo.getYear(), 0, 1, 0, 0, 0);
       if(!validateHolidayLength(dateFrom, endOfThisYear, driverID))
       {
+        System.out.println("The request is not valid: This year");
         return false;
-      }
+      }//if
       else if(!validateHolidayLength(startOfNextYear, dateTo, driverID))
       {
+        System.out.println("The request is not valid: Next year");
         return false;    
-      }
-    }//if
+      }//else if
+    }//if. over the year
+    
     if(!validateHolidayLength(dateFrom, dateTo, driverID))
     {
       return false;
-    }
+    }//with in one year
     
     //check if max driver at each DATE interval
     if(!checkDateInterval(dateFrom, dateTo))
@@ -95,9 +98,11 @@ public class ValidateHolidayRequest
                               givenDate.getYear() + 
                               " is NOT available");
       return false;
-    }
+    }//if
     else 
+    {
       return true;
+    }//else
   }//dateAvailable
   
   //Check if the requested holiday length is valid
@@ -105,9 +110,9 @@ public class ValidateHolidayRequest
   public static boolean validateHolidayLength
     (Date dateFrom, Date dateTo, int driverID)
   {
-    int interval = calculateInterval(dateFrom, dateTo);   
+    int interval = calculateInterval(dateFrom, dateTo); 
     //How many days does the driver have left for his holiday
-    int maxHoliday = DriverInfo.getHolidaysTaken(driverID) - 25;
+    int maxHoliday = 25 - DriverInfo.getHolidaysTaken(driverID);
     if(interval > maxHoliday)
     {
       HREM.lengthExceptionMsg = 
