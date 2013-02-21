@@ -27,6 +27,12 @@ public class AntUpdate
         Date dateTo = new Date(2013, 1,10,0,0,0);
         Date dateFrom = new Date(2013,1,15,0,0,0);
      
+        updateHolidayRequest(dateTo, dateFrom, driverID, x);
+    }
+    
+    public static void updateHolidayRequest
+            (Date dateTo, Date dateFrom, int driverID, boolean x)
+    {
         //if the request is vaild. update the database.
         if(x == true)
         {
@@ -34,11 +40,24 @@ public class AntUpdate
                 (dateFrom.getYear(), dateFrom.getMonth(), 
                  dateFrom.getDate(), 0, 0, 0);
             
-               DriverInfo.setHolidaysTaken(driverID, daysOff);
+            Date start = new Date
+                    (dateTo.getYear(),dateTo.getMonth(),dateTo.getDay(),0,0, 0);
+            
+            Date end = new Date
+                    (dateFrom.getYear(),dateFrom.getMonth(),
+                    dateFrom.getDay(),0,0,0);
+            
+            int daysOff = (int) ((end.getTime() - start.getTime())/ 
+                    (1000 *60*60*24));
+            //System.out.println("days:" + daysOff);
+            
+            DriverInfo.setHolidaysTaken(driverID, daysOff);
+               
+               
             Date currentDate = dateFrom;
             do
             {
-                DriverInfo.setAvailable(driverID, currentDate, true);
+                DriverInfo.setAvailable(driverID, currentDate, false);
                 
                 currentCal.add(Calendar.DATE, 1);
                 currentDate.setDate(currentCal.get(Calendar.DATE));
