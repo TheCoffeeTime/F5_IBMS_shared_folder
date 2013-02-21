@@ -111,6 +111,11 @@ public class ValidateHolidayRequest
     (Date dateFrom, Date dateTo, int driverID, boolean overTheYear)
   {
     int interval = calculateInterval(dateFrom, dateTo);
+    if(interval < 0)
+    {
+        systemMsg.message = "Your start date is after your finish date";
+        return false;
+    }
     int maxHoliday;
     if(!overTheYear)
     {
@@ -169,6 +174,5 @@ public class ValidateHolidayRequest
       // return days between + 1 becasue want to include the dateFrom and dateTo
       // in the interval
       return Days.daysBetween(dateTimeFrom, dateTimeTo).getDays() + 1;
-      
   }  
 }//class
