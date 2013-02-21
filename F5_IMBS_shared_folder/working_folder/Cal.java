@@ -122,9 +122,10 @@ public class Cal extends JPanel {
 
   /** ADDED BY NIKITA */
 
-  public Date getDate(Cal Calendar)
+  public Date getDate()
   {
-      Date selectedDate = new Date(Calendar.yy, Calendar.mm, Calendar.dd, 0, 0, 0);
+      Date selectedDate = new Date(yy, mm, dd, 0, 0, 0);
+      //System.out.println("YEAR: " + selectedDate.getYear());
       return selectedDate;
   }
   Color coolOrange = new Color(242, 161, 33);
@@ -174,7 +175,7 @@ public class Cal extends JPanel {
 
   /** Build the GUI. Assumes that setYYMMDD has been called. */
   private void buildGUI(final int driverID) {
-    database.openBusDatabase();
+    
     getAccessibleContext().setAccessibleDescription(
         "Calendar not accessible yet. Sorry!");
     //setBorder(BorderFactory.createEtchedBorder());

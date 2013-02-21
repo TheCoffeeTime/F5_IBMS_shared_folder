@@ -2,6 +2,7 @@
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.swing.JTextPane;
 
 /*
  * To change this template, choose Tools | Templates
@@ -16,7 +17,7 @@ public class Update {
         
     //By Anthony 21/02/13
     public static void updateHolidayRequest
-            (Date dateFrom, Date dateTo, int driverID)
+            (Date dateFrom, Date dateTo, int driverID, JTextPane SystemMessageTextPane)
     {
         int holidayLength = 
             ValidateHolidayRequest.calculateInterval(dateFrom, dateTo);
@@ -41,7 +42,8 @@ public class Update {
             System.out.println("UPDATED!");
 
         }while(!currentDate.after(dateTo));
-
+        SystemMessageTextPane.setText("Your vacation was successfully registred in our system."
+                + " Our company wishes you a nice holiday time.");
         // Print message in interface text field
     }//UpdateHolidayRequest
    

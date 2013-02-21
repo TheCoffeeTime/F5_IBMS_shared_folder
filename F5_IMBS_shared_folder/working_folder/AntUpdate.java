@@ -1,6 +1,7 @@
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.swing.JTextPane;
 
 /*
  * Third part of the algorithm. 
@@ -25,8 +26,8 @@ public class AntUpdate
         database.openBusDatabase();
         Date dateTo = new Date(2013, 1,10,0,0,0);
         Date dateFrom = new Date(2013,1,5,0,0,0);
-     
-        Update.updateHolidayRequest(dateFrom, dateTo, driverID);
+        JTextPane SystemMessageTextPane = new JTextPane();
+        Update.updateHolidayRequest(dateFrom, dateTo, driverID, SystemMessageTextPane);
     }
     
 

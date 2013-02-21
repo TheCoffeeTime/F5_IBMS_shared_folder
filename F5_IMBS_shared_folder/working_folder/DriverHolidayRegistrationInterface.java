@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -30,15 +32,11 @@ import javax.swing.border.TitledBorder;
 public class DriverHolidayRegistrationInterface {
 
     //private static JLabel SystemMessageLabel;
-    private static JTextPane SystemMessageLabel;
+    private static JTextPane SystemMessageTextPane;
 
-
-    // Method to change system message from other classes
-    public void updateSystemMessage(String message)
-    {
-        SystemMessageLabel.setText(message);
-    }
-
+     /** A Calendar object used throughout */
+    Calendar calendar = new GregorianCalendar();
+            
     public static void createGUI(final int driverID) {
     database.openBusDatabase();
 
@@ -62,32 +60,27 @@ public class DriverHolidayRegistrationInterface {
 
     // Add System Message
     JPanel SystemMessagePanel = new JPanel();
-    SystemMessageLabel = new JTextPane();
-    SystemMessageLabel.setBounds( 10, 10, 700, 400 );
-    SystemMessageLabel.setEditable(false);
-    //SystemMessageLabel.setBackground(c.getBackground());
+    SystemMessageTextPane = new JTextPane();
+    SystemMessageTextPane.setBounds( 10, 10, 700, 100 );
+    SystemMessageTextPane.setEditable(false);
+    SystemMessageTextPane.setBackground(c.getBackground());
     SystemMessagePanel.setLayout( null );
-    SystemMessagePanel.add(SystemMessageLabel);
-    SystemMessagePanel.setPreferredSize( new Dimension( 100, 100 ) );   
+    SystemMessagePanel.add(SystemMessageTextPane);
+    SystemMessagePanel.setPreferredSize( new Dimension( 100, 120 ) );   
     c.add( SystemMessagePanel, BorderLayout.CENTER );
     
     
     
-    SystemMessageLabel.setFont(new Font("Serif", Font.BOLD, 16));
-    SystemMessageLabel.setText("Welcome " + DriverInfo.getName(driverID) + "!"
-            + "Please select start and end date of your holiday. Green fields indicates dates which you "
-            + "can pick for a holiday, whereas red dates are the ones which are already reserved by other drivers."
-            + "All dates in your holiday period MUST be available (green)."//);
-            + "Please select start and end date of your holiday. Green fields indicates dates which you "
+    SystemMessageTextPane.setFont(new Font("Serif", Font.BOLD, 16));
+    SystemMessageTextPane.setText("Welcome " + DriverInfo.getName(driverID) + "!"
+            + " Please select start and end date of your holiday. Green fields indicates dates which you "
             + "can pick for a holiday, whereas red dates are the ones which are already reserved by other drivers."
             + "All dates in your holiday period MUST be available (green).");
-    //SystemMessagePanel.add(SystemMessageLabel);
-    //c.add(SystemMessagePanel);
     
-    
+    // Days left
     JPanel daysLeftPanel = new JPanel();
     daysLeftPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 2 ));
-    JLabel daysLeftLabel = new JLabel();
+    final JLabel daysLeftLabel = new JLabel();
     daysLeftLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
     daysLeftLabel.setForeground(new Color(0, 102,0));
     daysLeftLabel.setText("Days left: " + (25 - DriverInfo.getHolidaysTaken(driverID)));
@@ -140,9 +133,13 @@ public class DriverHolidayRegistrationInterface {
     JButton Submit = new javax.swing.JButton("Submit");
     Submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-              System.out.println("Date From:" + DateFrom.getDate(DateFrom));
-              System.out.println("Date To:" + DateFrom.getDate(DateTo));
-              System.out.println("Driver Name:" + DriverInfo.getName(driverID));
+              if (ValidateHolidayRequest.validateRequest(DateFrom.getDate(), DateTo.getDate(), driverID) == true)
+              {
+                Update.updateHolidayRequest(DateFrom.getDate(), DateTo.getDate(), driverID, SystemMessageTextPane);
+                daysLeftLabel.setText("Days left: " + (25 - DriverInfo.getHolidaysTaken(driverID)));
+                DateFrom.recompute(driverID);
+                DateTo.recompute(driverID);
+              }
             }
     });
     bottomButtons.add(Submit);
