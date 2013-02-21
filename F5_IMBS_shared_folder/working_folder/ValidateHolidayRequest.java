@@ -64,19 +64,9 @@ public class ValidateHolidayRequest
     Date currentDate = dateFrom;
     do
     {
-      //System.out.println("Checking: " + currentDate.getDate());
-      //
-      if(!DriverInfo.isAvailable(driverID, currentDate))
-      {
-          systemMsg.message = "You cannot request a holiday on this date:"
-                               + currentDate.getDate() + "/" +
-                              currentDate.getMonth() + "/" + 
-                              currentDate.getYear() + 
-                              " as it alrready is your holiday";
-          return false;
-      }
-      //Check if more than 9 drivers inavailable
-      if(!dateAvailable(currentDate)) 
+      //Check if more than 9 drivers inavailable and the holiday isn't 
+      //already taken by this driver
+      if(dateAvailable(currentDate, driverID) != 1) 
       {
         return false;  
       }
@@ -90,10 +80,23 @@ public class ValidateHolidayRequest
   }//checkDateInterval
   
   //Check if a given date is possible to be a driver holiday
+  //0 = Not available, 1 is Available, 2 driver has a holiday on that date  
   //Written by: Oak. Last modified: 17/02/13
-  public static boolean dateAvailable(Date givenDate)
-  {
+  public static int dateAvailable(Date givenDate, int driverID)
+  {   
     int[] driverIDs = DriverInfo.getDrivers();
+    
+    //System.out.println("Checking: " + currentDate.getDate());
+    if(!DriverInfo.isAvailable(driverID, givenDate))
+    {
+        systemMsg.message = "You cannot request a holiday on this date:"
+                             + givenDate.getDate() + "/" +
+                            givenDate.getMonth() + "/" + 
+                            givenDate.getYear() + 
+                            " as it alrready is your holiday";
+        return 2;
+    }
+    
     int notAvailable = 0;
     for (int i=0; i<driverIDs.length; i++)
     {
@@ -108,11 +111,11 @@ public class ValidateHolidayRequest
                               givenDate.getMonth() + "/" + 
                               givenDate.getYear() + 
                               " is NOT available");
-      return false;
+      return 0;
     }//if
     else 
     {
-      return true;
+      return 1;
     }//else
   }//dateAvailable
   
