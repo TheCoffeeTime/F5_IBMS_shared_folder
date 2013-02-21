@@ -42,7 +42,7 @@ public class ValidateHolidayRequest
     }//with in one year
     
     //check if max driver at each DATE interval
-    if(!checkDateInterval(dateFrom, dateTo))
+    if(!checkDateInterval(dateFrom, dateTo, driverID))
     {
       return false;
     }
@@ -54,7 +54,7 @@ public class ValidateHolidayRequest
   //For a given interval, check if each date in the interval has
   //been booked by less than 10 drivers. 
   //Written by: Oak. Last modified: 17/02/13
-  public static boolean checkDateInterval(Date dateFrom, Date dateTo)
+  public static boolean checkDateInterval(Date dateFrom, Date dateTo, int driverID)
   {
     GregorianCalendar currentCal = new GregorianCalendar
       (dateFrom.getYear(), dateFrom.getMonth(), 
@@ -64,7 +64,18 @@ public class ValidateHolidayRequest
     Date currentDate = dateFrom;
     do
     {
-      System.out.println("Checking: " + currentDate.getDate());
+      //System.out.println("Checking: " + currentDate.getDate());
+      //
+      if(!DriverInfo.isAvailable(driverID, currentDate))
+      {
+          systemMsg.message = "You cannot request a holiday on this date:"
+                               + currentDate.getDate() + "/" +
+                              currentDate.getMonth() + "/" + 
+                              currentDate.getYear() + 
+                              " as it alrready is your holiday";
+          return false;
+      }
+      //Check if more than 9 drivers inavailable
       if(!dateAvailable(currentDate)) 
       {
         return false;  
@@ -93,7 +104,7 @@ public class ValidateHolidayRequest
     }//for
     if(notAvailable > 9) 
     {
-      systemMsg .message =("Date: " + givenDate.getDate() + "/" +
+      systemMsg.message =("Date: " + givenDate.getDate() + "/" +
                               givenDate.getMonth() + "/" + 
                               givenDate.getYear() + 
                               " is NOT available");
@@ -130,7 +141,7 @@ public class ValidateHolidayRequest
     System.out.println("Max Holiday = " + maxHoliday);
     if(interval > maxHoliday)
     {
-      systemMsg .message = 
+      systemMsg.message = 
         ("You have requested " + interval + 
          (interval > 1? "days ": "day ") + "for " + dateTo.getYear() +
          ", while the maximum is " + maxHoliday + 
