@@ -121,13 +121,9 @@ public class ValidateHolidayRequest
       maxHoliday = 25;
     }//else
     
-<<<<<<< HEAD
     System.out.println("Max Holiday = " + maxHoliday);   
     //How many days does the driver have left for his holiday
     maxHoliday = 25 - DriverInfo.getHolidaysTaken(driverID);
-=======
-    System.out.println("Max Holiday = " + maxHoliday);
->>>>>>> parent of 1c50c8a... ignore chamges
     if(interval > maxHoliday)
     {
       systemMsg .message = 

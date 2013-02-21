@@ -15,13 +15,8 @@ public class OaksCalendarTest
     //System.out.println(currentCal.get(Calendar.MONTH));
     Date a = new Date(2012, 11, 30, 0, 0, 0);
     Date b = new Date(2013, 0, 10, 0, 0, 0);
-<<<<<<< HEAD
     //database.openBusDatabase();
     ValidateHolidayRequest.validateRequest(a, b, 2012);
-=======
-    database.openBusDatabase();
-    ValidateHolidayRequest.validateRequest(a, b, 2013);
->>>>>>> parent of 1c50c8a... ignore chamges
     //System.out.println(ValidateRequest.HREM.dateExceptionMsg);
   }//main
 }//class
