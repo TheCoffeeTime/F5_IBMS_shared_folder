@@ -1,10 +1,8 @@
-
-
-
-
 //import working_folder.database;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -14,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -30,8 +29,8 @@ import javax.swing.border.TitledBorder;
  */
 public class DriverHolidayRegistrationInterface {
 
-    private static JLabel SystemMessageLabel;
-
+    //private static JLabel SystemMessageLabel;
+    private static JTextPane SystemMessageLabel;
 
 
     // Method to change system message from other classes
@@ -63,16 +62,29 @@ public class DriverHolidayRegistrationInterface {
 
     // Add System Message
     JPanel SystemMessagePanel = new JPanel();
-    SystemMessagePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 2 ));
-    SystemMessageLabel = new JLabel();
-    SystemMessageLabel.setFont(new Font("Serif", Font.BOLD, 16));
-    SystemMessageLabel.setText("<html>Welcome " + DriverInfo.getName(driverID) + "!"
-            + "<br /><br /> Please select start and end date of your holiday. Green fields indicates dates which you "
-            + "can pick <br /> for a holiday, whereas red dates are the ones which are already reserved by other drivers.<br />"
-            + "All dates in your holiday period MUST be available (green).</html>");
+    SystemMessageLabel = new JTextPane();
+    SystemMessageLabel.setBounds( 10, 10, 700, 400 );
+    SystemMessageLabel.setEditable(false);
+    //SystemMessageLabel.setBackground(c.getBackground());
+    SystemMessagePanel.setLayout( null );
     SystemMessagePanel.add(SystemMessageLabel);
-    c.add(SystemMessagePanel);
-
+    SystemMessagePanel.setPreferredSize( new Dimension( 100, 100 ) );   
+    c.add( SystemMessagePanel, BorderLayout.CENTER );
+    
+    
+    
+    SystemMessageLabel.setFont(new Font("Serif", Font.BOLD, 16));
+    SystemMessageLabel.setText("Welcome " + DriverInfo.getName(driverID) + "!"
+            + "Please select start and end date of your holiday. Green fields indicates dates which you "
+            + "can pick for a holiday, whereas red dates are the ones which are already reserved by other drivers."
+            + "All dates in your holiday period MUST be available (green)."//);
+            + "Please select start and end date of your holiday. Green fields indicates dates which you "
+            + "can pick for a holiday, whereas red dates are the ones which are already reserved by other drivers."
+            + "All dates in your holiday period MUST be available (green).");
+    //SystemMessagePanel.add(SystemMessageLabel);
+    //c.add(SystemMessagePanel);
+    
+    
     JPanel daysLeftPanel = new JPanel();
     daysLeftPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 2 ));
     JLabel daysLeftLabel = new JLabel();
