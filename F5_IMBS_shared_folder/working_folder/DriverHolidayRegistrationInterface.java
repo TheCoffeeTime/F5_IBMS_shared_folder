@@ -75,6 +75,7 @@ public class DriverHolidayRegistrationInterface {
     SystemMessageTextPane.setText("Welcome " + DriverInfo.getName(driverID) + "!"
             + " Please select start and end date of your holiday. Green fields indicates dates which you "
             + "can pick for a holiday, whereas red dates are the ones which are already reserved by other drivers."
+            + " Dates when you have a holiday are highlighted with yellow. "
             + "All dates in your holiday period MUST be available (green).");
     
     // Days left

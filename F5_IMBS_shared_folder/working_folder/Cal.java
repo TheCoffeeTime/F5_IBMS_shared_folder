@@ -137,6 +137,8 @@ public class Cal extends JPanel {
   private static Color unusedDays = new Color (242, 161, 33); // Orange
 
   private static Color selectedDays = new Color (54, 101, 203); // Blue
+  
+  private static Color holidayDays = new Color (232, 255, 73); // Yellow
 
   /**
    * Construct a Cal, starting with today.
@@ -236,7 +238,7 @@ public class Cal extends JPanel {
         String num = e.getActionCommand();
         if (!num.equals("")) {
           // set the current day highlighted
-          setDayActive(Integer.parseInt(num));
+          setDayActive(Integer.parseInt(num), driverID);
           // When this becomes a Bean, you can
           // fire some kind of DateChanged event here.
           // Also, build a similar daySetter for day-of-week btns.
@@ -264,7 +266,7 @@ public class Cal extends JPanel {
     if (mm < 0 || mm > 11)
       throw new IllegalArgumentException("Month " + mm
           + " bad, must be 0-11");
-    clearDayActive();
+    clearDayActive(driverID);
     calendar = new GregorianCalendar(yy, mm, dd);
 
     // Compute how much to leave before the first.
@@ -291,15 +293,22 @@ public class Cal extends JPanel {
       b.setBackground(availableDays);
       
       dateToCheck = new Date(yy, mm, i, 0, 0, 0);
-      if (ValidateHolidayRequest.dateAvailable(dateToCheck) == true)
+      if (ValidateHolidayRequest.dateAvailable(dateToCheck, driverID) == 1)
       {
         b.setBackground(availableDays);
         System.out.println("Checking date " + "yy: " + yy + " mm: " + mm + " dd: " + i + " TRUE");
       }
       else
       {
-        b.setBackground(unavailableDays);
-        System.out.println("Checking date " + "yy: " + yy + " mm: " + mm + " dd: " + i + " FALSE");
+        if (ValidateHolidayRequest.dateAvailable(dateToCheck, driverID) == 0)
+        {
+          b.setBackground(unavailableDays);
+          System.out.println("Checking date " + "yy: " + yy + " mm: " + mm + " dd: " + i + " FALSE");
+        }
+        else
+        {
+            b.setBackground(holidayDays);
+        }
       }
       //dateAvailable(dateToCheck) == true
 
@@ -325,7 +334,7 @@ public class Cal extends JPanel {
 
     // Shade current day, only if current month
     if (thisYear == yy && mm == thisMonth)
-      setDayActive(dd); // shade the box for today
+      setDayActive(dd, driverID); // shade the box for today
 
     // Say we need to be drawn on the screen
     repaint();
@@ -354,7 +363,7 @@ public class Cal extends JPanel {
   }
 
   /** Unset any previously highlighted day */
-  private void clearDayActive() {
+  private void clearDayActive(int driverID) {
     JButton b;
 
     // First un-shade the previously-selected square, if any
@@ -362,13 +371,21 @@ public class Cal extends JPanel {
       b = labs[(leadGap + activeDay - 1) / 7][(leadGap + activeDay - 1) % 7];
       //b.setBackground(b0.getBackground());
       Date dateToCheck = new Date(yy, mm, activeDay, 0, 0, 0);
-      if (ValidateHolidayRequest.dateAvailable(dateToCheck) == true)
+      
+      if (ValidateHolidayRequest.dateAvailable(dateToCheck, driverID) == 1)
       {
         b.setBackground(availableDays);
       }
       else
       {
-        b.setBackground(unavailableDays);
+        if (ValidateHolidayRequest.dateAvailable(dateToCheck, driverID) == 0)
+        {
+          b.setBackground(unavailableDays);
+        }
+        else
+        {
+          b.setBackground(holidayDays);
+        }
       }
       b.repaint();
       activeDay = -1;
@@ -378,9 +395,9 @@ public class Cal extends JPanel {
   private int activeDay = -1;
 
   /** Set just the day, on the current month */
-  public void setDayActive(int newDay) {
+  public void setDayActive(int newDay, int driverID) {
 
-    clearDayActive();
+    clearDayActive(driverID);
 
     // Set the new one
     if (newDay <= 0)
