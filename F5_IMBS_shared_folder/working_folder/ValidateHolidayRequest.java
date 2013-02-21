@@ -109,7 +109,6 @@ public class ValidateHolidayRequest
   public static boolean validateHolidayLength
     (Date dateFrom, Date dateTo, int driverID, boolean overTheYear)
   {
-<<<<<<< HEAD
     int interval = calculateInterval(dateFrom, dateTo);
     int maxHoliday;
     if(!overTheYear)
@@ -123,11 +122,6 @@ public class ValidateHolidayRequest
     }//else
     
     System.out.println("Max Holiday = " + maxHoliday);
-=======
-    int interval = calculateInterval(dateFrom, dateTo);   
-    //How many days does the driver have left for his holiday
-    int maxHoliday = 25 - DriverInfo.getHolidaysTaken(driverID);
->>>>>>> ignore chamges
     if(interval > maxHoliday)
     {
       systemMsg .message = 
