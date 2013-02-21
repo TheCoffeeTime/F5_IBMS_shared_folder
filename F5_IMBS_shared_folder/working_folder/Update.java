@@ -14,10 +14,13 @@ import javax.swing.JTextPane;
  * @author Anthony 21/02/13
  */
 public class Update {
-        
+     
     //By Anthony 21/02/13
+    public static SystemMsg systemMsg 
+                  = new SystemMsg();
+    
     public static void updateHolidayRequest
-            (Date dateFrom, Date dateTo, int driverID, JTextPane SystemMessageTextPane)
+            (Date dateFrom, Date dateTo, int driverID)
     {
         int holidayLength = 
             ValidateHolidayRequest.calculateInterval(dateFrom, dateTo);
@@ -42,7 +45,7 @@ public class Update {
             System.out.println("UPDATED!");
 
         }while(!currentDate.after(dateTo));
-        SystemMessageTextPane.setText("Your vacation was successfully registred in our system."
+        systemMsg .message =("Your vacation was successfully registred in our system."
                 + " Our company wishes you a nice holiday time.");
         // Print message in interface text field
     }//UpdateHolidayRequest

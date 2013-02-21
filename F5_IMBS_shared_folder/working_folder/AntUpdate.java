@@ -26,8 +26,7 @@ public class AntUpdate
         database.openBusDatabase();
         Date dateTo = new Date(2013, 1,10,0,0,0);
         Date dateFrom = new Date(2013,1,5,0,0,0);
-        JTextPane SystemMessageTextPane = new JTextPane();
-        Update.updateHolidayRequest(dateFrom, dateTo, driverID, SystemMessageTextPane);
+        Update.updateHolidayRequest(dateFrom, dateTo, driverID);
     }
     
 

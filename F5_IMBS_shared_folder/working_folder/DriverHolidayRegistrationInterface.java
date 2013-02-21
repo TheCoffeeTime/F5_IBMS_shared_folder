@@ -135,10 +135,15 @@ public class DriverHolidayRegistrationInterface {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
               if (ValidateHolidayRequest.validateRequest(DateFrom.getDate(), DateTo.getDate(), driverID) == true)
               {
-                Update.updateHolidayRequest(DateFrom.getDate(), DateTo.getDate(), driverID, SystemMessageTextPane);
+                Update.updateHolidayRequest(DateFrom.getDate(), DateTo.getDate(), driverID);
                 daysLeftLabel.setText("Days left: " + (25 - DriverInfo.getHolidaysTaken(driverID)));
+                SystemMessageTextPane.setText(Update.systemMsg.message);
                 DateFrom.recompute(driverID);
                 DateTo.recompute(driverID);
+              }
+              else
+              {
+                SystemMessageTextPane.setText(ValidateHolidayRequest.systemMsg.message);
               }
             }
     });
