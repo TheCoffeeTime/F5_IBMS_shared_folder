@@ -38,12 +38,14 @@ public class ValidateHolidayRequest
     }//if. over the year  
     else if (!validateHolidayLength(dateFrom, dateTo, driverID, false))
     {
+      System.out.println("The length is greater than 25");
       return false;
     }//with in one year
     
     //check if max driver at each DATE interval
     if(!checkDateInterval(dateFrom, dateTo, driverID))
     {
+      System.out.println("Problem with check date!");
       return false;
     }
       
@@ -103,6 +105,8 @@ public class ValidateHolidayRequest
       if(!(DriverInfo.isAvailable(driverIDs[i], givenDate)))
       {
         notAvailable++; 
+        if(notAvailable > 9)
+            break;
       }
     }//for
     if(notAvailable > 9) 
@@ -141,7 +145,7 @@ public class ValidateHolidayRequest
       maxHoliday = 25;
     }//else
     
-    System.out.println("Max Holiday = " + maxHoliday);
+    //System.out.println("Max Holiday = " + maxHoliday);
     if(interval > maxHoliday)
     {
       systemMsg.message = 
