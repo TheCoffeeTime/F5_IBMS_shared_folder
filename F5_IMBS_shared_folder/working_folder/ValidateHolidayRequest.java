@@ -38,18 +38,18 @@ public class ValidateHolidayRequest
     }//if. over the year  
     else if (!validateHolidayLength(dateFrom, dateTo, driverID, false))
     {
-      System.out.println("The length is greater than 25");
+      //System.out.println("The length is greater than 25 or -ve");
       return false;
     }//with in one year
     
     //check if max driver at each DATE interval
     if(!checkDateInterval(dateFrom, dateTo, driverID))
     {
-      System.out.println("Problem with check date!");
+      //System.out.println("Problem with check date!");
       return false;
     }
       
-    System.out.println("The request is valid");
+    //System.out.println("The request is valid");
     return true;  
   }//validateRequest
   
@@ -62,8 +62,8 @@ public class ValidateHolidayRequest
       (dateFrom.getYear(), dateFrom.getMonth(), 
       dateFrom.getDate(), 0, 0, 0);
     
-    //WARNING: dateFrom cannot be reused after the loop.
-    Date currentDate = dateFrom;
+    Date currentDate = new Date(dateFrom.getYear(), dateFrom.getMonth(), 
+                                dateFrom.getDate(), 0, 0, 0);
     do
     {
       //Check if more than 9 drivers inavailable and the holiday isn't 
@@ -129,6 +129,7 @@ public class ValidateHolidayRequest
     (Date dateFrom, Date dateTo, int driverID, boolean overTheYear)
   {
     int interval = calculateInterval(dateFrom, dateTo);
+    //System.out.println("Holiday length = " + interval);
     if(interval < 0)
     {
         systemMsg.message = "Your start date is after your finish date";

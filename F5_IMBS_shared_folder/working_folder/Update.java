@@ -31,18 +31,18 @@ public class Update {
         GregorianCalendar currentCal = new GregorianCalendar
             (dateFrom.getYear(), dateFrom.getMonth(), 
              dateFrom.getDate(), 0, 0, 0);
-        
-        //WARNING: dateFrom cannot be reused after this method. 
-        Date currentDate = dateFrom;
+         
+        Date currentDate = new Date(dateFrom.getYear(), dateFrom.getMonth(),
+                                    dateFrom.getDate(), 0, 0, 0);
         do
         {
-            System.out.println("Current date:" + currentDate.getDate());
+            //System.out.println("Current date:" + currentDate.getDate());
             DriverInfo.setAvailable(driverID, currentDate, false);
             currentCal.add(Calendar.DATE, 1);
             currentDate.setDate(currentCal.get(Calendar.DATE));
             currentDate.setMonth(currentCal.get(Calendar.MONTH));
             currentDate.setYear(currentCal.get(Calendar.YEAR));
-            System.out.println("UPDATED!");
+            //System.out.println("UPDATED!");
 
         }while(!currentDate.after(dateTo));
         systemMsg .message =("Your vacation was successfully registred in our system."
