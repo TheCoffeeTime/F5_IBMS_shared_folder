@@ -51,8 +51,8 @@ public class Group {
       }
       
       int [] drivers = DriverInfo.getDrivers();
-      for (int i = 0; i < drivers.length; i++)
-      {
+          for (int i = 0; i < drivers.length; i++)
+          {
         groups.get((drivers[i] - 2012) % 7).add(drivers[i]);
       }
       return groups;
