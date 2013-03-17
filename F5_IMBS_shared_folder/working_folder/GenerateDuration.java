@@ -24,36 +24,55 @@ public class GenerateDuration {
         int[] serviceTimes;
         int[] services = TimetableInfo.getServices(route, TimetableInfo.timetableKind(date));
         ArrayList<Duration> durationArray = new ArrayList<Duration>();
-  
         
+        // this represensts the index of ech bus so how many services a bus has done
+        // each position index is accessed usign a bus number
+        // so everytime a bus number occurs the value is incremented at the busNo index
+        // this is done when making new durations
+        ArrayList<Integer> busIndex = new ArrayList<Integer>();
+        
+        // want to initalize all this to 0 so can access the index
+        for(int i = 0; i < 25; i++)
+            busIndex.add(0);
+        
+        // used when incrementing the bus index to temporarily hold the value
+        int tempBusIndex;
+
         int noOfBuses = 0;
         
         // index represents how many services or journeys the bus has made
-        int busIndex = 1;
+
         int[] serviceTimes2 = TimetableInfo.getServiceTimes(route, TimetableInfo.timetableKind(date), 0);
         
         // cretae a temporary duration to compare with other durations to calculate whether start times over run
-        Duration tempDuration = new Duration(serviceTimes2[0], serviceTimes2[serviceTimes2.length - 1], noOfBuses, busIndex);
+        Duration tempDuration = new Duration(serviceTimes2[0], serviceTimes2[serviceTimes2.length - 1], noOfBuses, busIndex.get(noOfBuses));
         for(int i = 0; i < noOfServices; i++)
         {
             serviceTimes = TimetableInfo.getServiceTimes(route, TimetableInfo.timetableKind(date), i);
-            Duration tempDuration2 = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex);
+            Duration tempDuration2 = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
             
             // when the end time of a service runs into the start time of another service we need another bus
             if(tempDuration.getEndTime() > tempDuration2.getStartTime())
             {
                 noOfBuses++;
+                tempBusIndex = busIndex.get(noOfBuses);
+                tempBusIndex++;
+                busIndex.remove(noOfBuses);
+                busIndex.add(noOfBuses, tempBusIndex);
             }
             // otherwise we dont need another bus so reset bus number and change the comparing duration
             else 
             {
                 noOfBuses = 1;
-                busIndex++;
+                tempBusIndex = busIndex.get(noOfBuses);
+                tempBusIndex++;
+                busIndex.remove(noOfBuses);
+                busIndex.add(noOfBuses, tempBusIndex);
                 tempDuration = tempDuration2;
                     
             }
             
-            Duration newDuration = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex);
+            Duration newDuration = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
             durationArray.add(newDuration);
      
             
@@ -71,14 +90,23 @@ public class GenerateDuration {
         ArrayList<Duration> duration358Out = generateDuration(date, route358Out);
         ArrayList<Duration> duration358Back = generateDuration(date, route358Back);
         
+        // this represensts the index of ech bus so how many services a bus has done
+        // each position index is accessed usign a bus number
+        // so everytime a bus number occurs the value is incremented at the busNo index
+        // this is done when making new durations
+        ArrayList<Integer> busIndex = new ArrayList<Integer>();
+        
+        // want to initalize all this to 0 so can access the index
+        for(int i = 0; i < 25; i++)
+            busIndex.add(0);
+        
 
         ArrayList<Duration> durationArray = new ArrayList<Duration>();
         
         int noOfBuses = 0;
-        int maxBuses = 0;
-        int busIndex = 1;
         
-        int k = 1;
+        // used when incrementing the bus index to temporarily hold the value
+        int tempBusIndex;
         
         for(int i = 0; i < duration358Out.size(); i++)
         {      
@@ -99,15 +127,22 @@ public class GenerateDuration {
             if(tempDuration.getEndTime() > tempDuration2.getStartTime())
             {
                  noOfBuses++;
+                 tempBusIndex = busIndex.get(noOfBuses);
+                 tempBusIndex++;
+                 busIndex.remove(noOfBuses);
+                 busIndex.add(noOfBuses, tempBusIndex);
             }
             else 
             {
                 noOfBuses = 1;
-                busIndex++;
+                int b = busIndex.get(noOfBuses);
+                b++;
+                busIndex.remove(noOfBuses);
+                busIndex.add(noOfBuses, b);
                 tempDuration = durationArray.get(i);
                     
             }
-            durationArray.get(i).setIndex(busIndex);
+            durationArray.get(i).setIndex(busIndex.get(noOfBuses));
             durationArray.get(i).setBusNo(noOfBuses);
         }
            return durationArray; 
