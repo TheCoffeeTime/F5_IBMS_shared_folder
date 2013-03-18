@@ -6,6 +6,8 @@
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoasterGenerator
 {
@@ -55,4 +57,37 @@ public class RoasterGenerator
     Duration[] d = GenerateArrayOfDuration(date);
     return GenerateArrayOfShift(d);
   }//GenerateADayRoaster
+  
+  /
+  /*A Method to assigne drivers to shifts.
+   * author: Henryka Reszka
+   */
+  public static Shift[] AssignDriverToShift(Shift[] driverShift, Date date)
+  {
+    //create an array of drivers  
+    int[] drivers = new int[70];
+    int noOfDriver=0; 
+    
+    //in this loop going through driverShift array to
+    //calculate the numbers of drivers needed for a given date
+    for (int i=0; i<driverShift.length; i++)
+    {
+       if (drivers[driverShift[i].getDriverID()]==0);
+       {
+          drivers[driverShift[i].getDriverID()]++;
+          noOfDriver++;
+       } 
+    }  
+    
+    //get drivers'ID
+    ArrayList<Integer> driverIDs = getDrivers(date, noOfDriver);
+    
+    //assign drivers'ID to a driverShift
+    for (int i=0; i<driverShift.length; i++)
+    {
+        driverShift[i].setDriverID(driverIDs[driverShift[i].getDriverID()]);
+    }
+    
+    return driverShift;       
+  } //AssignDriverToShift       
 }//class
