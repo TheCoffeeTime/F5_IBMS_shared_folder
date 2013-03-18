@@ -16,4 +16,14 @@ public class Shift
     routeID = r;
     date = d;
   }//Shift
+  
+  public getDriverID()
+  {
+    return driverID;
+  }//getDriverID
+  
+  public setDriverID(int dID)
+  {
+    driverID = dID;
+  }//setDriverID
 }//Shift
