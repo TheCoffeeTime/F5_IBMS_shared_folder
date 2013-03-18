@@ -55,10 +55,10 @@ public class RoasterGenerator
   public static Shift[] GenerateADayRoaster(Date date)
   {
     Duration[] d = GenerateArrayOfDuration(date);
-    return GenerateArrayOfShift(d);
+    return AssignDriverToShift(GenerateArrayOfShift(d));
   }//GenerateADayRoaster
   
-  /
+  
   /*A Method to assigne drivers to shifts.
    * author: Henryka Reszka
    */
@@ -85,8 +85,8 @@ public class RoasterGenerator
     //assign drivers'ID to a driverShift
     for (int i=0; i<driverShift.length; i++)
     {
-        driverShift[i].setDriverID(driverIDs[driverShift[i].getDriverID()]);
-    }
+        driverShift[i].setDriverID(driverIDs.get(driverShift[i].getDriverID()));
+    }//for
     
     return driverShift;       
   } //AssignDriverToShift       
