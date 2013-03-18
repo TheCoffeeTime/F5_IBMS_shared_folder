@@ -17,12 +17,12 @@ public class Shift
     date = d;
   }//Shift
   
-  public getDriverID()
+  public int getDriverID()
   {
     return driverID;
   }//getDriverID
   
-  public setDriverID(int dID)
+  public void setDriverID(int dID)
   {
     driverID = dID;
   }//setDriverID

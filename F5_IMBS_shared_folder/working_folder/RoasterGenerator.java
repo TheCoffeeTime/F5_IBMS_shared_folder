@@ -80,7 +80,7 @@ public class RoasterGenerator
     }  
     
     //get drivers'ID
-    ArrayList<Integer> driverIDs = getDrivers(date, noOfDriver);
+    ArrayList<Integer> driverIDs = DriverPrioritising.getDrivers(date, noOfDriver);
     
     //assign drivers'ID to a driverShift
     for (int i=0; i<driverShift.length; i++)
