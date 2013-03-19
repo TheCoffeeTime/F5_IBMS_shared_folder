@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class DriverPrioritising {
     
+    private static ArrayList<ArrayList<Integer>> groupDrivers;
     
     // Groups timetable for a week
   private static int [][] weekdaysGroups = {
@@ -35,7 +36,7 @@ public class DriverPrioritising {
     public static ArrayList<Integer> getDrivers(Date date, int numberOfDrivers)
     {
         int[] groupsWorkingOnDate = getGroupsInAWeekday(date);
-        ArrayList<ArrayList<Integer>> groupDrivers = groupDrivers();
+        groupDrivers = groupDrivers();
         
         int numberOfDriversPerGroup = numberOfDrivers / 5;
         
@@ -46,10 +47,19 @@ public class DriverPrioritising {
         
         
         // an arraylist of arraylists that contains arraylists of groups that can work
-        ArrayList<ArrayList<Integer>> groupsThatCanWork = new ArrayList<ArrayList<Integer>>();
+        
+        ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
+        
+        for(int i = 0; i < numberOfDrivers; i++)
+        {
+            ArrayList<Integer> groupToAdd = new ArrayList<Integer>();
+            groupToAdd = groupDrivers.get(groupsWorkingOnDate[i] - 1);
+            groupToAdd = (ArrayList) prioritiseDriversInGroup(groupToAdd, numberOfDriversPerGroup, date);
+            groups.add(groupToAdd);
+        }  
         
         // prioritise all the drivers in each group
-        if(numberOfDrivers >= 5)
+        /*if(numberOfDrivers >= 5)
         {
           ArrayList<Integer> group1 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[0] - 1); // returns an arraylist
           ArrayList<Integer> group2 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[1] - 1); // returns an arraylist
@@ -112,23 +122,39 @@ public class DriverPrioritising {
         }
         else
             return null;
-
+       */
         
-        ArrayList<Integer> groups = new ArrayList<Integer>();
+        ArrayList<Integer> drivers = new ArrayList<Integer>();
         
-        for(int i = 0;i < groupsThatCanWork.size(); i++)
+        for(int i = 0;i < groups.size(); i++)
         {
-            ArrayList<Integer> tempArray = groupsThatCanWork.get(i);
+            ArrayList<Integer> tempArray = groups.get(i);
             for(int j =0; j < tempArray.size(); j++)
             {
-                groups.add(tempArray.get(j));
+                drivers.add(tempArray.get(j));
             }
         }
         
-        return groups;
+        return drivers;
         
          
     }
+    
+    public static ArrayList<ArrayList<Integer>> addGroup(int numberOfDrivers, int numberOfDriversPerGroup, 
+                                                         int[] groupsWorkingOnDate, Date date)
+    {
+        ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
+        
+        for(int i = 0; i < numberOfDrivers; i++)
+        {
+            ArrayList<Integer> groupToAdd = new ArrayList<Integer>();
+            groupToAdd = groupDrivers.get(groupsWorkingOnDate[i] - 1);
+            groupToAdd = (ArrayList) prioritiseDriversInGroup(groupToAdd, numberOfDriversPerGroup, date);
+            groups.add(groupToAdd);
+        }  
+        return groups;
+    }
+    
     
     // author Nikita
     public static ArrayList<Integer> prioritiseDriversInGroup(ArrayList<Integer> group, 
