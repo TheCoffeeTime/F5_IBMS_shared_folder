@@ -43,11 +43,10 @@ public class DriverPrioritising {
         if(numberOfDriversPerGroup == 0)
             numberOfDriversPerGroup = 1;
         
-        // create an arraylist for each group. use array - 1 because index starts from 0
+        if(numberOfDrivers >= 5)
+            numberOfDrivers = 5;
         
-        
-        // an arraylist of arraylists that contains arraylists of groups that can work
-        
+        // an arraylist of arraylists that contains arraylists of groups that can work       
         ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
         
         for(int i = 0; i < numberOfDrivers; i++)
@@ -56,73 +55,7 @@ public class DriverPrioritising {
             groupToAdd = groupDrivers.get(groupsWorkingOnDate[i] - 1);
             groupToAdd = (ArrayList) prioritiseDriversInGroup(groupToAdd, numberOfDriversPerGroup, date);
             groups.add(groupToAdd);
-        }  
-        
-        // prioritise all the drivers in each group
-        /*if(numberOfDrivers >= 5)
-        {
-          ArrayList<Integer> group1 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[0] - 1); // returns an arraylist
-          ArrayList<Integer> group2 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[1] - 1); // returns an arraylist
-          ArrayList<Integer> group3 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[2] - 1); // returns an arraylist
-          ArrayList<Integer> group4 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[3] - 1); // returns an arraylist
-          ArrayList<Integer> group5 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[4] - 1); // returns an arraylist
-          group1 = (ArrayList) prioritiseDriversInGroup(group1, numberOfDriversPerGroup, date); // returns an arraylist
-          group2 = (ArrayList) prioritiseDriversInGroup(group2, numberOfDriversPerGroup, date); // returns an arraylist
-          group3 = (ArrayList) prioritiseDriversInGroup(group3, numberOfDriversPerGroup, date); // returns an arraylist
-          group4 = (ArrayList) prioritiseDriversInGroup(group4, numberOfDriversPerGroup, date); // returns an arraylist
-          group5 = (ArrayList) prioritiseDriversInGroup(group5, numberOfDriversPerGroup, date); // returns an arraylist
-          groupsThatCanWork.add(group1);
-          groupsThatCanWork.add(group2);
-          groupsThatCanWork.add(group3);
-          groupsThatCanWork.add(group4);
-          groupsThatCanWork.add(group5);
-        }
-        else if(numberOfDrivers == 4)
-        {          
-          ArrayList<Integer> group1 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[0] - 1); // returns an arraylist
-          ArrayList<Integer> group2 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[1] - 1); // returns an arraylist
-          ArrayList<Integer> group3 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[2] - 1); // returns an arraylist
-          ArrayList<Integer> group4 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[3] - 1); // returns an arraylist
-          group1 = (ArrayList) prioritiseDriversInGroup(group1, numberOfDriversPerGroup, date); // returns an arraylist
-          group2 = (ArrayList) prioritiseDriversInGroup(group2, numberOfDriversPerGroup, date); // returns an arraylist
-          group3 = (ArrayList) prioritiseDriversInGroup(group3, numberOfDriversPerGroup, date); // returns an arraylist
-          group4 = (ArrayList) prioritiseDriversInGroup(group4, numberOfDriversPerGroup, date); // returns an arraylist
-          groupsThatCanWork.add(group1);
-          groupsThatCanWork.add(group2);
-          groupsThatCanWork.add(group3);
-          groupsThatCanWork.add(group4);
-        }
-        else if(numberOfDrivers == 3)
-        {
-          ArrayList<Integer> group1 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[0] - 1); // returns an arraylist
-          ArrayList<Integer> group2 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[1] - 1); // returns an arraylist
-          ArrayList<Integer> group3 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[2] - 1); // returns an arraylist
-          group1 = (ArrayList) prioritiseDriversInGroup(group1, numberOfDriversPerGroup, date); // returns an arraylist
-          group2 = (ArrayList) prioritiseDriversInGroup(group2, numberOfDriversPerGroup, date); // returns an arraylist
-          group3 = (ArrayList) prioritiseDriversInGroup(group3, numberOfDriversPerGroup, date); // returns an arraylist
-          groupsThatCanWork.add(group1);
-          groupsThatCanWork.add(group2);
-          groupsThatCanWork.add(group3);
-
-        }
-        else if(numberOfDrivers == 2)
-        {
-          ArrayList<Integer> group1 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[0] - 1); // returns an arraylist
-          ArrayList<Integer> group2 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[1] - 1); // returns an arraylist
-
-          group1 = (ArrayList) prioritiseDriversInGroup(group1, numberOfDriversPerGroup, date); // returns an arraylist
-          group2 = (ArrayList) prioritiseDriversInGroup(group2, numberOfDriversPerGroup, date); // returns an arraylist
-          groupsThatCanWork.add(group1);
-        }
-        else if (numberOfDrivers == 1)
-        {
-           ArrayList<Integer> group1 = (ArrayList) groupDrivers.get(groupsWorkingOnDate[0] - 1); // returns an arraylist
-           group1 = (ArrayList) prioritiseDriversInGroup(group1, numberOfDriversPerGroup, date); // returns an arraylist
-           groupsThatCanWork.add(group1);
-        }
-        else
-            return null;
-       */
+        } 
         
         ArrayList<Integer> drivers = new ArrayList<Integer>();
         
@@ -135,9 +68,7 @@ public class DriverPrioritising {
             }
         }
         
-        return drivers;
-        
-         
+        return drivers;   
     }
     
     public static ArrayList<ArrayList<Integer>> addGroup(int numberOfDrivers, int numberOfDriversPerGroup, 
@@ -299,7 +230,7 @@ public class DriverPrioritising {
     {
       Date test = new Date(2013, 2, 9);
       ArrayList<Integer> groupsThatCanWork = new ArrayList<Integer>();
-      groupsThatCanWork = getDrivers(test, 4);
+      groupsThatCanWork = getDrivers(test, 10);
       
       for (int i = 0; i < groupsThatCanWork.size(); i++)
       {

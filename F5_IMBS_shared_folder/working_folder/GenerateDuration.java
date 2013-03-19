@@ -41,6 +41,8 @@ public class GenerateDuration {
         int noOfBuses = 0;
         
         // index represents how many services or journeys the bus has made
+     
+            //if(serviceTimes[0] < serviceTimes[serviceTimes.length - 1])
 
         int[] serviceTimes2 = TimetableInfo.getServiceTimes(route, TimetableInfo.timetableKind(date), 0);
         
