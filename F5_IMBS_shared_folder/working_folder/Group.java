@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * @author Nikita Abramovs
+ * @author Nikita
  */
 public class Group {
   
