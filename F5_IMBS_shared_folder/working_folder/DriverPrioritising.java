@@ -43,13 +43,16 @@ public class DriverPrioritising {
         if(numberOfDriversPerGroup == 0)
             numberOfDriversPerGroup = 1;
         
+        int numberOfGroups = numberOfDrivers;
+        
+        // when there is more than 5 dr
         if(numberOfDrivers >= 5)
-            numberOfDrivers = 5;
+            numberOfGroups = 5;
         
         // an arraylist of arraylists that contains arraylists of groups that can work       
         ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
         
-        for(int i = 0; i < numberOfDrivers; i++)
+        for(int i = 0; i < numberOfGroups; i++)
         {
             ArrayList<Integer> groupToAdd = new ArrayList<Integer>();
             groupToAdd = groupDrivers.get(groupsWorkingOnDate[i] - 1);

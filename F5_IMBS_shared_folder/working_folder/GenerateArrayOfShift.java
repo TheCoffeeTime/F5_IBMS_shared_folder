@@ -93,7 +93,7 @@ public class GenerateArrayOfShift {
         
         // Nathan's test code from main in GenerateDuration
         Date date =  new Date(2013, 02, 13);
-        ArrayList<Duration> duration358 = GenerateDuration.generateDuration(date, 65);
+        ArrayList<Duration> duration358 = GenerateDuration.generateDuration(date, 67, 68);
        
         System.out.println("358 bus durations:");
         

@@ -54,7 +54,7 @@ public class RoasterGenerator
   */
   public static Shift[] GenerateADayRoaster(Date date)
   {
-    Duration[] d = GenerateArrayOfDuration(date);
+    ArrayList<Duration> d = GenerateDuration.generateDuration(date, 65);
     return AssignDriverToShift(GenerateArrayOfShift(d));
   }//GenerateADayRoaster
   

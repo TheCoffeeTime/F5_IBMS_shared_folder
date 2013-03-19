@@ -41,8 +41,6 @@ public class GenerateDuration {
         int noOfBuses = 0;
         
         // index represents how many services or journeys the bus has made
-     
-            //if(serviceTimes[0] < serviceTimes[serviceTimes.length - 1])
 
         int[] serviceTimes2 = TimetableInfo.getServiceTimes(route, TimetableInfo.timetableKind(date), 0);
         
@@ -52,6 +50,12 @@ public class GenerateDuration {
         {
             serviceTimes = TimetableInfo.getServiceTimes(route, TimetableInfo.timetableKind(date), i);
             Duration tempDuration2 = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
+            
+            if(tempDuration2.getDuration() > 1000)
+                tempDuration = tempDuration2 = new Duration(serviceTimes[serviceTimes.length - 1], serviceTimes[0] + 1440, noOfBuses, busIndex.get(noOfBuses));
+            
+            if(serviceTimes.length < 10)
+                tempDuration2 = new Duration(serviceTimes[0] - 42, serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
             
             // when the end time of a service runs into the start time of another service we need another bus
             if(tempDuration.getEndTime() > tempDuration2.getStartTime())
@@ -74,7 +78,7 @@ public class GenerateDuration {
                     
             }
             
-            Duration newDuration = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
+            Duration newDuration = tempDuration2;
             durationArray.add(newDuration);
      
             
