@@ -49,10 +49,7 @@ public class GenerateDuration {
         for(int i = 0; i < noOfServices; i++)
         {
             serviceTimes = TimetableInfo.getServiceTimes(route, TimetableInfo.timetableKind(date), i);
-            Duration tempDuration2 = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
-            
-            if(tempDuration2.getDuration() > 1000)
-                tempDuration = tempDuration2 = new Duration(serviceTimes[serviceTimes.length - 1], serviceTimes[0] + 1440, noOfBuses, busIndex.get(noOfBuses));
+            Duration tempDuration2 = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));                    
             
             if(serviceTimes.length < 10)
                 tempDuration2 = new Duration(serviceTimes[0] - 42, serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
@@ -77,7 +74,10 @@ public class GenerateDuration {
                 tempDuration = tempDuration2;
                     
             }
-            
+            if(tempDuration2.getDuration() > 1000)
+            {
+                tempDuration = tempDuration2 = new Duration(serviceTimes[serviceTimes.length - 1], serviceTimes[0] + 1528, noOfBuses, busIndex.get(noOfBuses));
+            }
             Duration newDuration = tempDuration2;
             durationArray.add(newDuration);
      
@@ -159,7 +159,7 @@ public class GenerateDuration {
      public static void main(String[] args)
      {
         database.openBusDatabase();
-        Date date =  new Date(2013, 02, 13);
+        Date date =  new Date(2013, 02, 16);
         ArrayList<Duration> duration358 = generateDuration(date, 67, 68);
         ArrayList<Duration> duration383 = generateDuration(date, 65);
         ArrayList<Duration> duration384 = generateDuration(date, 66);
@@ -168,8 +168,9 @@ public class GenerateDuration {
         
         for(int i = 0; i < duration358.size(); i++)
         {
-              System.out.println("Start Time " + duration358.get(i).getHours(duration358.get(i).getStartTime()) + 
-                                  duration358.get(i).getMinutes(duration358.get(i).getStartTime()) +" : " + "End Time " +
+              System.out.println("Start Time " + 
+                                  duration358.get(i).getHours(duration358.get(i).getStartTime())  + 
+                                  duration358.get(i).getMinutes(duration358.get(i).getStartTime()) + " : " + " End Time " +
                                  + duration358.get(i).getHours(duration358.get(i).getEndTime()) + 
                                   duration358.get(i).getMinutes(duration358.get(i).getEndTime()) + " : "
                                  + "Duration " + duration358.get(i).getDuration() + " : " +
@@ -181,7 +182,7 @@ public class GenerateDuration {
         System.out.println();
         System.out.println("383 bus durations:");
         
-        for(int i = 0; i < duration358.size(); i++)
+        for(int i = 0; i < duration383.size(); i++)
         {
               System.out.println("Start Time " + duration383.get(i).getHours(duration383.get(i).getStartTime()) + 
                                   duration383.get(i).getMinutes(duration383.get(i).getStartTime()) +" : " + "End Time " +
@@ -196,7 +197,7 @@ public class GenerateDuration {
         System.out.println();
         System.out.println("384 bus durations:");
         
-        for(int i = 0; i < duration358.size(); i++)
+        for(int i = 0; i < duration384.size(); i++)
         {
               System.out.println("Start Time " + duration384.get(i).getHours(duration384.get(i).getStartTime()) + 
                                   duration384.get(i).getMinutes(duration384.get(i).getStartTime()) +" : " + "End Time " +
