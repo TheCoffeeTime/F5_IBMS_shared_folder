@@ -33,7 +33,6 @@ public class GenerateArrayOfShift {
         // Variables which store information about shift
         int startTime;
         int endTime;
-        int shiftTime; 
         
         // Loop through all buses
         for (int j = 1; j <= numberOfBuses; j++)
@@ -41,7 +40,6 @@ public class GenerateArrayOfShift {
             // Reset shift information
             startTime = 0;
             endTime = 0;
-            shiftTime = 0;
 
             // Loop through all durations            
             for (int i = 0; i < Durations.size(); i++)
@@ -56,11 +54,10 @@ public class GenerateArrayOfShift {
                       startTime =  Durations.get(i).getStartTime();
                   }
                   // If we can add current duration to current shift (shift max time = 5h = 300m) 
-                  if (shiftTime + Durations.get(i).getDuration() < 300)
+                  if ((Durations.get(i).getEndTime() - startTime) < 300)                  
                   {
-                      // Add duration and update end Time
-                      shiftTime = shiftTime + Durations.get(i).getDuration();
-                      endTime = startTime + shiftTime;
+                      // Update end Time
+                      endTime = Durations.get(i).getEndTime();
                   }
                   else
                   {
@@ -71,8 +68,6 @@ public class GenerateArrayOfShift {
                       // Set start & end time of the next shift
                       startTime = Durations.get(i).getStartTime();
                       endTime = Durations.get(i).getEndTime();
-                      // Find next shift duration so far
-                      shiftTime = endTime - startTime;
                   }
               }
               
