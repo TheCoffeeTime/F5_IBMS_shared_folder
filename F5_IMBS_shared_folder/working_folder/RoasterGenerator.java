@@ -20,7 +20,7 @@ public class RoasterGenerator
   public static Roaster GenerateRoaster(Date dateFrom, Date dateTo)
   {
     int interval = ValidateHolidayRequest.calculateInterval(dateFrom, dateTo);
-    Shift[][] shift = new Shift[interval][];
+    ArrayList<ArrayList<Shift>> shift = new ArrayList<ArrayList<Shift>>();
     
     //Use calendar to increase the date
     GregorianCalendar currentCal = new GregorianCalendar
@@ -34,7 +34,7 @@ public class RoasterGenerator
        
     for(int i = 0; i < interval; i++)
     {
-      shift[i] = GenerateADayRoaster(currentDate);
+      shift.set(i, GenerateADayRoaster(currentDate));
       currentCal.add(Calendar.DATE, 1);
       currentDate.setDate(currentCal.get(Calendar.DATE));
       currentDate.setMonth(currentCal.get(Calendar.MONTH));
@@ -43,7 +43,7 @@ public class RoasterGenerator
     
     //Create a roaster object. 
     Roaster roaster = new Roaster
-      (currentCal.get(Calendar.MONTH), currentCal.get(Calendar.YEAR), shift);
+            (currentCal.get(Calendar.MONTH), currentCal.get(Calendar.YEAR), shift);
     return roaster;
     
   }//GenerateRoaster
@@ -52,17 +52,31 @@ public class RoasterGenerator
     A method that generate an array of shifts. This represents a roaster for 
     one day. 
   */
-  public static Shift[] GenerateADayRoaster(Date date)
+  public static ArrayList<Shift> GenerateADayRoaster(Date date)
   {
-    ArrayList<Duration> d = GenerateDuration.generateDuration(date, 65);
-    return AssignDriverToShift(GenerateArrayOfShift(d));
+    ArrayList<Duration> duration358Weekday = GenerateDuration.generateDuration(date, 67, 68);
+    ArrayList<Duration> duration383Weekday = GenerateDuration.generateDuration(date, 65);
+    ArrayList<Duration> duration384Weekday = GenerateDuration.generateDuration(date, 66);
+    
+    ArrayList<Shift> shift358 = GenerateArrayOfShift.generateDuration(duration358Weekday);
+    ArrayList<Shift> shift383 = GenerateArrayOfShift.generateDuration(duration383Weekday);
+    ArrayList<Shift> shift384 = GenerateArrayOfShift.generateDuration(duration384Weekday);
+    
+    AssignDriverToShift(shift358, date);
+    AssignDriverToShift(shift383, date);
+    AssignDriverToShift(shift384, date);
+   
+    //Combine all the shift for different route into one. 
+    shift358.addAll(shift383.size() - 1, shift384);
+    shift358.addAll(shift384.size() - 1, shift384);
+    return shift358;
   }//GenerateADayRoaster
   
   
   /*A Method to assigne drivers to shifts.
    * author: Henryka Reszka
    */
-  public static Shift[] AssignDriverToShift(Shift[] driverShift, Date date)
+  public static ArrayList<Shift> AssignDriverToShift(ArrayList<Shift> driverShift, Date date)
   {
     //create an array of drivers  
     int[] drivers = new int[70];
@@ -70,11 +84,11 @@ public class RoasterGenerator
     
     //in this loop going through driverShift array to
     //calculate the numbers of drivers needed for a given date
-    for (int i=0; i<driverShift.length; i++)
+    for (int i=0; i<driverShift.size(); i++)
     {
-       if (drivers[driverShift[i].getDriverID()]==0);
+       if (drivers[driverShift.get(i).getDriverID()]==0);
        {
-          drivers[driverShift[i].getDriverID()]++;
+          drivers[driverShift.get(i).getDriverID()]++;
           noOfDriver++;
        } 
     }  
@@ -83,9 +97,9 @@ public class RoasterGenerator
     ArrayList<Integer> driverIDs = DriverPrioritising.getDrivers(date, noOfDriver);
     
     //assign drivers'ID to a driverShift
-    for (int i=0; i<driverShift.length; i++)
+    for (int i=0; i<driverShift.size(); i++)
     {
-        driverShift[i].setDriverID(driverIDs.get(driverShift[i].getDriverID()));
+        driverShift.get(i).setDriverID(driverIDs.get(driverShift.get(i).getDriverID()));
     }//for
     
     return driverShift;       
