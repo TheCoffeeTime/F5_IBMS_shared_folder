@@ -15,7 +15,7 @@ public class GenerateArrayOfShift {
     
     public static ArrayList<Shift> generateDuration(ArrayList<Duration> Durations)
     {
-        //database.openBusDatabase();
+        database.openBusDatabase();
         int buses[] = BusInfo.getBuses();
         ArrayList<Shift> shiftArray = new ArrayList<Shift>();
         
