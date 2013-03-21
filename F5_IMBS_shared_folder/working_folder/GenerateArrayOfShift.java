@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 /*
  * To change this template, choose Tools | Templates
@@ -13,13 +14,18 @@ import java.util.Date;
  */
 public class GenerateArrayOfShift {
     
-    public static ArrayList<Shift> generateDuration(ArrayList<Duration> Durations)
+    public static ArrayList<Shift> generateDuration(ArrayList<Duration> Durations, AvailableBuses buses)
     {
         //database.openBusDatabase();
-        int buses[] = BusInfo.getBuses();
+        //int buses[] = BusInfo.getBuses();
+        database.openBusDatabase();
+        //int buses[] = BusInfo.getBuses();
+//        /ArrayList<Boolean> availableBuses = new ArrayList<Boolean>();
+        
         ArrayList<Shift> shiftArray = new ArrayList<Shift>();
         
         int numberOfBuses = 1;
+        int nextAvailableBus =0;
                 
         // Find required number of buses (maximum bus number in the List of Durations)
         for (int i = 0; i < Durations.size(); i++)
@@ -62,7 +68,17 @@ public class GenerateArrayOfShift {
                   else
                   {
                       // Shift is finished -> create object & store it in the Array
-                      Shift tempShift = new Shift(0, buses[j-1],
+                      boolean availableBuses[] = buses.getBuses();
+                      for (int k = 0; k < availableBuses.length; k++)
+                      {
+                          if (availableBuses[k] == true)
+                          {
+                              nextAvailableBus = buses.getBusID(k);
+                              break;
+                          }
+                      }
+                      //buses.getBuses()
+                      Shift tempShift = new Shift(0, nextAvailableBus,
                                                   startTime, endTime);
                       shiftArray.add(tempShift);
                       // Set start & end time of the next shift
@@ -74,11 +90,31 @@ public class GenerateArrayOfShift {
               // If it is this bus last duration - finish shift
               if ((i == Durations.size() - 1) && endTime != 0)
               {
-                      Shift tempShift = new Shift(0, buses[j-1],
+                      boolean availableBuses[] = buses.getBuses();
+                      for (int k = 0; k < availableBuses.length; k++)
+                      {
+                          if (availableBuses[k] == true)
+                          {
+                              nextAvailableBus = buses.getBusID(k);
+                              break;
+                          }
+                      }
+                      
+                      Shift tempShift = new Shift(0, nextAvailableBus,
                                                   startTime, endTime);
                       shiftArray.add(tempShift);
               }
             }
+            
+            boolean availableBuses[] = buses.getBuses();
+            for (int k = 0; k < availableBuses.length; k++)
+            {
+              if (availableBuses[k] == true)
+              {
+                buses.setBusUnavailable(k);
+                break;
+              }
+            }           
         }
         return shiftArray;
     }
@@ -94,6 +130,7 @@ public class GenerateArrayOfShift {
         // Nathan's test code from main in GenerateDuration
         Date date =  new Date(2013, 02, 13);
         ArrayList<Duration> duration358 = GenerateDuration.generateDuration(date, 67, 68);
+        ArrayList<Duration> duration383 = GenerateDuration.generateDuration(date, 65);
        
         System.out.println("358 bus durations:");
         
@@ -112,7 +149,8 @@ public class GenerateArrayOfShift {
         System.out.println();
         
         // Nikita's test code
-        ArrayList<Shift> shiftArray = generateDuration(duration358);
+        AvailableBuses buses = new AvailableBuses();
+        ArrayList<Shift> shiftArray = generateDuration(duration358, buses);
         
         for (int i = 0; i < shiftArray.size(); i++)
         {
@@ -124,5 +162,21 @@ public class GenerateArrayOfShift {
                                "Shift duration: " + (shiftArray.get(i).getTimeTo() - 
                                                      shiftArray.get(i).getTimeFrom()));
         }
+        
+        shiftArray = generateDuration(duration383, buses);
+        
+        for (int i = 0; i < shiftArray.size(); i++)
+        {
+            System.out.println("Shift number: " + i + " | " +
+                               "Start time: " + shiftArray.get(i).getTimeFrom() + " | " + 
+                               "End time: " + shiftArray.get(i).getTimeTo() + " | " +
+                               "Driver ID: " + shiftArray.get(i).getDriverID() + " | " +
+                               "Bus ID: " + shiftArray.get(i).getBusID() + " | " +
+                               "Shift duration: " + (shiftArray.get(i).getTimeTo() - 
+                                                     shiftArray.get(i).getTimeFrom()));
+        }       
+        
+        
+       
     }
 }

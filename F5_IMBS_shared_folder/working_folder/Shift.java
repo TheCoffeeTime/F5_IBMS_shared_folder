@@ -4,7 +4,7 @@ import java.util.Date;
 */
 public class Shift
 {
-  int driverID, busID, timeFrom, timeTo, routeID;
+  int driverID, busID, timeFrom, timeTo, routeID, duration;
   Date date;
   
   public Shift(int dID, int bID, int TF, int TT) //, int r, Date d
@@ -13,9 +13,15 @@ public class Shift
     busID = bID;
     timeFrom = TF;
     timeTo = TT;
+    duration = TT-TF;
     //routeID = r; // Date & route are used to generete ArrayOfDurations and are not stored in it,
     //date = d;    // I've commented them as I've used only ArrayOfDurations to generate ArrayOfShifts
   }//Shift
+  
+  public int getDuration()
+  {
+      return duration;
+  }
   
   public int getDriverID()
   {
