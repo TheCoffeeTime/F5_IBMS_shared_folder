@@ -22,19 +22,19 @@ import java.util.List;
  */
 public class DriverPrioritising {
     
-  // Arraylist of arraylist of drivers
-  private static ArrayList<ArrayList<Integer>> groupDrivers;
+    // Arraylist of arraylist of drivers
+    private static ArrayList<ArrayList<Integer>> groupDrivers;
     
-  // Groups timetable for a week
-  private static int [][] weekdaysGroups = {
-          {1,4,5,6,7},
-          {1,2,5,6,7},
-          {1,2,3,6,7},
-          {1,2,3,4,7},
-          {1,2,3,4,5},
-          {2,3,4,5,6},
-          {3,4,5,6,7}
-      };
+    // Groups timetable for a week
+    private static int [][] weekdaysGroups = {
+    {1,4,5,6,7},
+    {1,2,5,6,7},
+    {1,2,3,6,7},
+    {1,2,3,4,7},
+    {1,2,3,4,5},
+    {2,3,4,5,6},
+    {3,4,5,6,7}
+    };
     
     // method use date and number of drivers to calculate the correct groups to work on that day
     // along with the correct drivers
@@ -44,7 +44,14 @@ public class DriverPrioritising {
         int[] groupsWorkingOnDate = getGroupsInAWeekday(date);
         groupDrivers = groupDrivers();
         
+        int extraDrivers = 0;
+        
+        if(numberOfDrivers % 5 != 0)
+            extraDrivers = numberOfDrivers % 5;
+        
+        
         int numberOfDriversPerGroup = numberOfDrivers / 5;
+        
         
         if(numberOfDriversPerGroup == 0)
             numberOfDriversPerGroup = 1;
@@ -55,16 +62,22 @@ public class DriverPrioritising {
         if(numberOfDrivers >= 5)
             numberOfGroups = 5;
         
-        // an arraylist of arraylists that contains arraylists of groups that can work       
+        // an arraylist of arraylists that contains arraylists of groups that can work
         ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
         
         for(int i = 0; i < numberOfGroups; i++)
         {
+            int temp = 0;
+            if(extraDrivers > 0)
+            {
+                temp++;
+                extraDrivers--;
+            }
             ArrayList<Integer> groupToAdd = new ArrayList<Integer>();
             groupToAdd = groupDrivers.get(groupsWorkingOnDate[i] - 1);
-            groupToAdd = (ArrayList) prioritiseDriversInGroup(groupToAdd, numberOfDriversPerGroup, date);
+            groupToAdd = prioritiseDriversInGroup(groupToAdd, numberOfDriversPerGroup + temp, date);
             groups.add(groupToAdd);
-        } 
+        }
         
         ArrayList<Integer> drivers = new ArrayList<Integer>();
         
@@ -77,10 +90,10 @@ public class DriverPrioritising {
             }
         }
         
-        return drivers;   
+        return drivers;
     }
     
-    public static ArrayList<ArrayList<Integer>> addGroup(int numberOfDrivers, int numberOfDriversPerGroup, 
+    public static ArrayList<ArrayList<Integer>> addGroup(int numberOfDrivers, int numberOfDriversPerGroup,
                                                          int[] groupsWorkingOnDate, Date date)
     {
         ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
@@ -91,13 +104,13 @@ public class DriverPrioritising {
             groupToAdd = groupDrivers.get(groupsWorkingOnDate[i] - 1);
             groupToAdd = (ArrayList) prioritiseDriversInGroup(groupToAdd, numberOfDriversPerGroup, date);
             groups.add(groupToAdd);
-        }  
+        }
         return groups;
     }
     
     
     // author Nikita
-    public static ArrayList<Integer> prioritiseDriversInGroup(ArrayList<Integer> group, 
+    public static ArrayList<Integer> prioritiseDriversInGroup(ArrayList<Integer> group,
                                                               int numberOfDriversPerGroup, Date date)
     {
         int prioritisedDriver;
@@ -105,50 +118,50 @@ public class DriverPrioritising {
         
         while(numberOfDriversPerGroup != 0)
         {
-          prioritisedDriver = calculatePriority(group, date);
-          for (int i=0; i< group.size(); i++) {
-          int val = group.get(i);
-          //System.out.println(val);
-            if (val == prioritisedDriver) {
-                groupPrioritised.add(group.get(i));
-                group.remove(i);
-                break;
+            prioritisedDriver = calculatePriority(group, date);
+            for (int i=0; i< group.size(); i++) {
+                int val = group.get(i);
+                //System.out.println(val);
+                if (val == prioritisedDriver) {
+                    groupPrioritised.add(group.get(i));
+                    group.remove(i);
+                    break;
+                }
             }
-          }
-          numberOfDriversPerGroup--;
+            numberOfDriversPerGroup--;
         }
         return groupPrioritised;
     }
     
     public static int[] getGroupsInAWeekday(Date date)
-    {                
-      Calendar c = Calendar.getInstance();
-      c.setTime(date);
-      int[] groupsInAWeekday = weekdaysGroups[c.get(Calendar.DAY_OF_WEEK) - 1];
-      return groupsInAWeekday;     
+    {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int[] groupsInAWeekday = weekdaysGroups[c.get(Calendar.DAY_OF_WEEK) - 1];
+        return groupsInAWeekday;
     }
     
-  // author Nikita
-  // Returns a 2 dimensional ArrayList [Group][List of drivers ID]
-  public static ArrayList<ArrayList<Integer>> groupDrivers()
-  {
-      //database.openBusDatabase();
-      ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
-      
-      for(int i = 0; i < 7; i++)
-      {
-        groups.add(new ArrayList());
-      }
-      
-      int [] drivers = DriverInfo.getDrivers();
-          for (int i = 0; i < drivers.length; i++)
-          {
-        groups.get((drivers[i] - 2012) % 7).add(drivers[i]);
-      }
-      return groups;
-  }
-  
-   // Search through database and prioritise a driver in that group
+    // author Nikita
+    // Returns a 2 dimensional ArrayList [Group][List of drivers ID]
+    public static ArrayList<ArrayList<Integer>> groupDrivers()
+    {
+        //database.openBusDatabase();
+        ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
+        
+        for(int i = 0; i < 7; i++)
+        {
+            groups.add(new ArrayList());
+        }
+        
+        int [] drivers = DriverInfo.getDrivers();
+        for (int i = 0; i < drivers.length; i++)
+        {
+            groups.get((drivers[i] - 2012) % 7).add(drivers[i]);
+        }
+        return groups;
+    }
+    
+    // Search through database and prioritise a driver in that group
     public static int calculatePriority(ArrayList<Integer> group, Date date)
     {
         int chosenDriver = - 1;
@@ -162,7 +175,7 @@ public class DriverPrioritising {
         for(int i = 0; i < group.size(); i++)
             if(DriverInfo.isAvailable(group.get(i)))
             {
-               available.add(group.get(i));
+                available.add(group.get(i));
             }
         
         //
@@ -178,14 +191,14 @@ public class DriverPrioritising {
         for(int i = 0; i < available.size(); i++)
             if(DriverInfo.getHoursThisWeek(available.get(i)) < leastHoursWorkedThisWeek)
             {
-               leastHoursWorkedThisWeek = DriverInfo.getHoursThisWeek(available.get(i));
+                leastHoursWorkedThisWeek = DriverInfo.getHoursThisWeek(available.get(i));
             }
         
         // check which drivers in that group are available on that day
         for(int i = 0; i < available.size(); i++)
             if(DriverInfo.getHoursThisWeek(available.get(i)) == leastHoursWorkedThisWeek)
             {
-               leastHoursInWeek.add(available.get(i));
+                leastHoursInWeek.add(available.get(i));
             }
         
         //
@@ -194,65 +207,66 @@ public class DriverPrioritising {
         
         // an array for drivers with least hours
         ArrayList<Integer> leastHoursInYear = new ArrayList<Integer>();
-          
+        
         if(leastHoursInWeek.size() > 1)
         {
-          
-        
-          // start at the max hours possible in a year (50 * 52)
-          int leastHoursWorkedThisYear = 2600;
-        
-          // find the least hours worked by a driver in that group
-          for(int i = 0; i < leastHoursInWeek.size(); i++)
-            if(DriverInfo.getHoursThisYear(leastHoursInWeek.get(i)) < leastHoursWorkedThisYear)
-            {
-               leastHoursWorkedThisYear = DriverInfo.getHoursThisWeek(leastHoursInWeek.get(i));
-            }
-        
-          // check which drivers that have worked the least hours this year
-          for(int i = 0; i < leastHoursInWeek.size(); i++)
-            if(DriverInfo.getHoursThisWeek(leastHoursInWeek.get(i)) == leastHoursWorkedThisYear)
-            {
-               leastHoursInYear.add(leastHoursInWeek.get(i));
-            }
+            
+            
+            // start at the max hours possible in a year (50 * 52)
+            int leastHoursWorkedThisYear = 2600;
+            
+            // find the least hours worked by a driver in that group
+            for(int i = 0; i < leastHoursInWeek.size(); i++)
+                if(DriverInfo.getHoursThisYear(leastHoursInWeek.get(i)) < leastHoursWorkedThisYear)
+                {
+                    leastHoursWorkedThisYear = DriverInfo.getHoursThisWeek(leastHoursInWeek.get(i));
+                }
+            
+            // check which drivers that have worked the least hours this year
+            for(int i = 0; i < leastHoursInWeek.size(); i++)
+                if(DriverInfo.getHoursThisWeek(leastHoursInWeek.get(i)) == leastHoursWorkedThisYear)
+                {
+                    leastHoursInYear.add(leastHoursInWeek.get(i));
+                }
         }
         else
-         chosenDriver = leastHoursInWeek.get(0);
+            return leastHoursInWeek.get(0);
         
         //
         //
         //
         // if not one driver left, pick a random one, as all are even
-        if(leastHoursInYear.size() > 1 && leastHoursInYear.size() > 1)
+        if(leastHoursInYear.size() > 1)
         {
-          // make a random index, multiply it by array length - 1 because its an index
-          int randomIndex = (leastHoursInYear.size() - 1) * (int)Math.random();
-          chosenDriver = leastHoursInYear.get(randomIndex);
+            // make a random index, multiply it by array length - 1 because its an index
+            int randomIndex = (leastHoursInYear.size() - 1) * (int)Math.random();
+            chosenDriver = leastHoursInYear.get(randomIndex);
         }
         else
-         chosenDriver = leastHoursInYear.get(0);
+            chosenDriver = leastHoursInYear.get(0);
         
         return chosenDriver;
     }
     
     public static void main (String[] args)
     {
-      Date test = new Date(2013, 2, 9);
-      ArrayList<Integer> groupsThatCanWork = new ArrayList<Integer>();
-      groupsThatCanWork = getDrivers(test, 10);
-      
-      for (int i = 0; i < groupsThatCanWork.size(); i++)
-      {
-          System.out.println("Driver that can work: " + groupsThatCanWork.get(i));
-      }
-      int[] dayGroups = getGroupsInAWeekday(test);
-      SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM");
-      System.out.println("Groups for " + dateFormat.format(test) + ": ");
-      
-      for (int i = 0; i < dayGroups.length; i++)
-      {
-          System.out.print(dayGroups[i] + ", ");
-      }
+        database.openBusDatabase();
+        Date test = new Date(2013, 2, 16);
+        ArrayList<Integer> groupsThatCanWork = new ArrayList<Integer>();
+        groupsThatCanWork = getDrivers(test, 24);
+        
+        for (int i = 0; i < groupsThatCanWork.size(); i++)
+        {
+            System.out.println("Driver that can work: " + groupsThatCanWork.get(i) + " " + (i+1));
+        }
+        int[] dayGroups = getGroupsInAWeekday(test);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM");
+        System.out.println("Groups for " + dateFormat.format(test) + ": ");
+        
+        for (int i = 0; i < dayGroups.length; i++)
+        {
+            System.out.print(dayGroups[i] + ", ");
+        }
         
     }
 }
