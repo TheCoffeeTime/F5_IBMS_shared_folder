@@ -9,8 +9,8 @@ import java.util.Date;
 
 /**
  *
- * Make an array of shifts for each kind of timetable for each service
- * so in total 9 array
+ * Class to test GenerateArrayOfShift
+ * So test to see that each shift is under 5 hours
  * @author nathantilsley
  */
 public class TestGenerateArrayOfShift {
@@ -51,129 +51,168 @@ public class TestGenerateArrayOfShift {
         ArrayList<Shift> shift384Sunday = GenerateArrayOfShift.generateDuration(duration384Sunday);
         
         
-        // LOTS AND LOTS OF FOR LOOPS TO PRINT OUT THE ARRAY IF SHIFTS
-        // FOR ALL THE 9 SHIFT ARRAYS THAT HAVE BEEN GENERATED
-        System.out.println("This is the shitfts for 358 service for a week day a saturday and a sunday");  
-        System.out.println("The week day date is " + weekdayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift358Weekday.size(); i++)
+        // loop though each array list and check that there no shift exceeds 5 hours
+        boolean shiftToLong = false;
+        for(int i = 0; i < shift358Weekday.size(); i++)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift358Weekday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift358Weekday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift358Weekday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift358Weekday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift358Weekday.get(i).getTimeTo() - 
-                                                     shift358Weekday.get(i).getTimeFrom()));
+            if(shift358Weekday.get(i).getTimeTo() - shift358Weekday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
         }
         
-        System.out.println("The saturday date is " + saturdayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift358Saturday.size(); i++)
+        if(shiftToLong)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift358Saturday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift358Saturday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift358Saturday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift358Saturday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift358Saturday.get(i).getTimeTo() - 
-                                                     shift358Saturday.get(i).getTimeFrom()));
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this weekday fro route 358");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this weekday for route 358");
         }
         
-        System.out.println("The sunday date is  " + sundayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift358Sunday.size(); i++)
+        shiftToLong = false;
+        for(int i = 0; i < shift358Saturday.size(); i++)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift358Sunday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift358Sunday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift358Sunday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift358Sunday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift358Sunday.get(i).getTimeTo() - 
-                                                     shift358Sunday.get(i).getTimeFrom()));
+            if(shift358Saturday.get(i).getTimeTo() - shift358Saturday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
         }
         
-        System.out.println("This is the shitfts for 383 service for a week day a saturday and a sunday");  
-        System.out.println("The week day date is " + weekdayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift383Weekday.size(); i++)
+        if(shiftToLong)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift383Weekday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift383Weekday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift383Weekday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift383Weekday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift383Weekday.get(i).getTimeTo() - 
-                                                     shift383Weekday.get(i).getTimeFrom()));
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this saturday for route 358");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this saturday for route 358");
         }
         
-        System.out.println("The saturday date is " + saturdayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift383Saturday.size(); i++)
+        shiftToLong = false;
+        for(int i = 0; i < shift358Sunday.size(); i++)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift383Saturday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift383Saturday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift383Saturday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift383Saturday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift383Saturday.get(i).getTimeTo() - 
-                                                     shift383Saturday.get(i).getTimeFrom()));
+            if(shift358Sunday.get(i).getTimeTo() - shift358Sunday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
         }
         
-        System.out.println("The sunday date is  " + sundayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift383Sunday.size(); i++)
+        if(shiftToLong)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift383Sunday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift383Sunday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift383Sunday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift383Sunday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift383Sunday.get(i).getTimeTo() - 
-                                                     shift383Sunday.get(i).getTimeFrom()));
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this sunday for route 358");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this sunday for route 358");
         }
         
-      
-        System.out.println("This is the shitfts for 384 service for a week day a saturday and a sunday");  
-        System.out.println("The week day date is " + weekdayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift384Weekday.size(); i++)
+        shiftToLong = false;
+        for(int i = 0; i < shift383Weekday.size(); i++)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift384Weekday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift384Weekday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift384Weekday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift384Weekday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift384Weekday.get(i).getTimeTo() - 
-                                                     shift384Weekday.get(i).getTimeFrom()));
+            if(shift383Weekday.get(i).getTimeTo() - shift383Weekday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
         }
         
-        System.out.println("The saturday date is " + saturdayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift384Saturday.size(); i++)
+        if(shiftToLong)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift384Saturday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift384Saturday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift384Saturday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift384Saturday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift384Saturday.get(i).getTimeTo() - 
-                                                     shift384Saturday.get(i).getTimeFrom()));
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this weekday fro route 383");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this weekday for route 383");
         }
         
-        System.out.println("The sunday date is  " + sundayDate.toString());
-        System.out.println();
-        for (int i = 0; i < shift384Sunday.size(); i++)
+        shiftToLong = false;
+        for(int i = 0; i < shift383Saturday.size(); i++)
         {
-            System.out.println("Shift number: " + i + " | " +
-                               "Start time: " + shift384Sunday.get(i).getTimeFrom() + " | " + 
-                               "End time: " + shift384Sunday.get(i).getTimeTo() + " | " +
-                               "Driver ID: " + shift384Sunday.get(i).getDriverID() + " | " +
-                               "Bus ID: " + shift384Sunday.get(i).getBusID() + " | " +
-                               "Shift duration: " + (shift384Sunday.get(i).getTimeTo() - 
-                                                     shift384Sunday.get(i).getTimeFrom()));
+            if(shift383Saturday.get(i).getTimeTo() - shift383Saturday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
         }
         
+        if(shiftToLong)
+        {
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this saturday for route 383");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this saturday for route 383");
+        }
+        
+        shiftToLong = false;
+        for(int i = 0; i < shift383Sunday.size(); i++)
+        {
+            if(shift383Sunday.get(i).getTimeTo() - shift383Sunday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
+        }
+        
+        if(shiftToLong)
+        {
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this sunday for route 383");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this sunday for route 383");
+        }
+        
+        shiftToLong = false;
+        for(int i = 0; i < shift384Weekday.size(); i++)
+        {
+            if(shift384Weekday.get(i).getTimeTo() - shift384Weekday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
+        }
+        
+        if(shiftToLong)
+        {
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this weekday fro route 384");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this weekday for route 384");
+        }
+        
+        shiftToLong = false;
+        for(int i = 0; i < shift384Saturday.size(); i++)
+        {
+            if(shift384Saturday.get(i).getTimeTo() - shift384Saturday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
+        }
+        
+        if(shiftToLong)
+        {
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this saturday for route 383");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this saturday for route 383");
+        }
+        
+        shiftToLong = false;
+        for(int i = 0; i < shift384Sunday.size(); i++)
+        {
+            if(shift384Sunday.get(i).getTimeTo() - shift384Sunday.get(i).getTimeFrom() > 300)
+            {
+                shiftToLong = true;
+            }
+        }
+        
+        if(shiftToLong)
+        {
+            System.out.println("There is one or more shifts in on this date that exceed 5 hours on this sunday for route 383");
+        }
+        else
+        {
+            System.out.println("There are no shifts that exceed 5 hours on this sunday for route 383");
+        }
         
     }
 }

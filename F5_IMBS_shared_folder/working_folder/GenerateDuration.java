@@ -9,7 +9,12 @@ import java.util.ArrayList;
  */
 
 /**
- *
+ * This class will generate an array of durations objects, each array will be relative to a route
+ * There is two generate durations methods, one for the circular routes 383 and 384
+ * which takes two parameters one for the date and one for the route.
+ * There is a method specifically for the 358 routes, which takes 3 parameters
+ * the date, and the 358out route, and the 358back route. This will combine the two routes into one duration
+ * 
  * @author nathantilsley
  */
 public class GenerateDuration {   
@@ -25,7 +30,7 @@ public class GenerateDuration {
         int[] services = TimetableInfo.getServices(route, TimetableInfo.timetableKind(date));
         ArrayList<Duration> durationArray = new ArrayList<Duration>();
         
-        // this represensts the index of ech bus so how many services a bus has done
+        // this represents the index of ech bus so how many services a bus has done
         // each position index is accessed usign a bus number
         // so everytime a bus number occurs the value is incremented at the busNo index
         // this is done when making new durations

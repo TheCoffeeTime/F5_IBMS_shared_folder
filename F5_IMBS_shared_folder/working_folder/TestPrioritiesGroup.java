@@ -23,43 +23,14 @@ public class TestPrioritiesGroup {
         int[] saturdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 15));
         int[] sundayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 16));
         
-        
-        // PRIINT OUT ALL THE ARRAYS, AND ALL THE GROUPS WORKING ON EACH DAY OF THE WEEK
-        
-        System.out.print("Groups working on monday: ");
-        for(int i= 0; i < mondayGroupArray.length; i++)
-            System.out.print(mondayGroupArray[i] + ", ");
-        System.out.println();
-        
-        System.out.print("Groups working on tueday: ");
-        for(int i= 0; i < tuesdayGroupArray.length; i++)
-            System.out.print(tuesdayGroupArray[i] + ", ");
-        System.out.println();
-        
-        System.out.print("Groups working on wednesday: ");
-        for(int i= 0; i < wednesdayGroupArray.length; i++)
-            System.out.print(wednesdayGroupArray[i] + ", ");
-        System.out.println();
-        
-        System.out.print("Groups working on thursday: ");
-        for(int i= 0; i < thursdayGroupArray.length; i++)
-            System.out.print(thursdayGroupArray[i] + ", ");
-        System.out.println();
-        
-        System.out.print("Groups working on friday: ");
-        for(int i= 0; i < fridayGroupArray.length; i++)
-            System.out.print(fridayGroupArray[i] + ", ");
-        System.out.println();
-        
-        System.out.print("Groups working on saturday: ");
-        for(int i= 0; i < saturdayGroupArray.length; i++)
-            System.out.print(saturdayGroupArray[i] + ", ");
-        System.out.println();
-        
-        System.out.print("Groups working on sunday: ");
-        for(int i= 0; i < sundayGroupArray.length; i++)
-            System.out.print(saturdayGroupArray[i] + ", ");
-        System.out.println();
+        System.out.println("Now check that there is 5 groups per day");
+        testGroupSize(mondayGroupArray);
+        testGroupSize(tuesdayGroupArray);
+        testGroupSize(wednesdayGroupArray);
+        testGroupSize(thursdayGroupArray);
+        testGroupSize(fridayGroupArray);
+        testGroupSize(saturdayGroupArray);
+        testGroupSize(sundayGroupArray);
         
         //Some test numbers
         int numberOfDriversPerGroupTest1 = 1;
@@ -77,14 +48,13 @@ public class TestPrioritiesGroup {
         for(int i = 0; i < groups.size(); i++)
         {
             ArrayList<Integer> groupRow = groups.get(i);
-            System.out.println("This is group number: " + (i + 1) + " the groups"
-                    + "the drivers in the group are");
-            for(int j = 0; j < groupRow.size(); j++)
-                System.out.print(groupRow.get(j) + ", ");
-            
-            System.out.println();
-            System.out.println();
+            if(groupRow.size() == 10)
+                System.out.println("The size of group " + (i + 1) + " is as expected");
+            else
+                System.out.println("The size of group " + (i + 1) + " is not as expected");
+       
         }
+        
         
         // make arraylist of all drivers working in on a day, after they ahve been prioritised
         // so only drivers who have worked the least horus should be working
@@ -98,56 +68,40 @@ public class TestPrioritiesGroup {
         
         
         // print off all the drivers that are working in each group
-        System.out.println("This is the drivers in group 1 that are working");
-        for(int i = 0; i < group1.size(); i++)
-        {
-            System.out.print(group1.get(i) + ", ");
-        }
-        System.out.println();
         
-        System.out.println("This is the drivers in group 2 that are working");
-        for(int i = 0; i < group2.size(); i++)
-        {
-            System.out.print(group2.get(i) + ", ");
-        }
-        System.out.println();
+        groupNumber = 1;
         
-        System.out.println("This is the drivers in group 3 that are working");
-        for(int i = 0; i < group3.size(); i++)
-        {
-            System.out.print(group3.get(i) + ", ");
-        }
-        System.out.println();
-     
+        System.out.print("check that the number of drivers working in that group");
+        System.out.println(" corresponds to the number of drivers that should ");       
         
-        System.out.println("This is the drivers in group 4 that are working");
-        for(int i = 0; i < group4.size(); i++)
-        {
-            System.out.print(group4.get(i) + ", ");
-        }
-        System.out.println();
+        testWorkingDrivers(group1, numberOfDriversPerGroupTest1);
+        testWorkingDrivers(group2, numberOfDriversPerGroupTest2);
+        testWorkingDrivers(group3, numberOfDriversPerGroupTest3);
+        testWorkingDrivers(group4, numberOfDriversPerGroupTest4);
+        testWorkingDrivers(group5, numberOfDriversPerGroupTest5);
+        testWorkingDrivers(group6, numberOfDriversPerGroupTest6);
+        testWorkingDrivers(group7, numberOfDriversPerGroupTest7);
+    }
+    
+    private static int groupNumber = 1;
+    public static void testGroupSize(int[] group)
+    {
+        if(group.length == 5)
+            System.out.println("There are 5 drivers in working on day " + groupNumber);
+        else
+            System.out.println("There are more than 5 drivers working on day " + groupNumber);
         
-        System.out.println("This is the drivers in group 5 that are working");
-        for(int i = 0; i < group5.size(); i++)
-        {
-            System.out.print(group5.get(i) + ", ");
-        }
-        System.out.println();
-        
-        System.out.println("This is the drivers in group 6 that are working");
-        for(int i = 0; i < group6.size(); i++)
-        {
-            System.out.print(group6.get(i) + ", ");
-        }
-        System.out.println();
-        
-        System.out.println("This is the drivers in group 7 that are working");
-        for(int i = 0; i < group7.size(); i++)
-        {
-            System.out.print(group7.get(i) + ", ");
-        }
-        System.out.println();
-        
+        groupNumber++;
+    }
+    
+    public static void testWorkingDrivers(ArrayList<Integer> group, int numberOfDriversWorking)
+    {
+       if(group.size() == numberOfDriversWorking) 
+           System.out.println("The number of drivers working on a day is as expected for group "+ groupNumber);
+       else
+           System.out.println("The number of drivers working on a day is as expected for group "+ groupNumber);  
+       
+       groupNumber++;
     }
     
 }

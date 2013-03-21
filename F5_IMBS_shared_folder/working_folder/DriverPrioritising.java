@@ -12,14 +12,20 @@ import java.util.List;
 
 /**
  *
- * Class that will prioritise drivers.
+ * Class that prioritises, it mains function is to return an array list of
+ * prioritised drivers in order. Each driver is put into a group.
+ * 5 groups work on each day, each group works 5 days a week.
+ * It will prioritise which group should have its drivers picked first on which day
+ * Also, within each group, all drivers will be prioritised within in th group based on hours
+ * worked
  * @author nathantilsley
  */
 public class DriverPrioritising {
     
-    private static ArrayList<ArrayList<Integer>> groupDrivers;
+  // Arraylist of arraylist of drivers
+  private static ArrayList<ArrayList<Integer>> groupDrivers;
     
-    // Groups timetable for a week
+  // Groups timetable for a week
   private static int [][] weekdaysGroups = {
           {1,4,5,6,7},
           {1,2,5,6,7},
