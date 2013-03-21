@@ -132,7 +132,7 @@ public class DriverPrioritising {
   // Returns a 2 dimensional ArrayList [Group][List of drivers ID]
   public static ArrayList<ArrayList<Integer>> groupDrivers()
   {
-      database.openBusDatabase();
+      //database.openBusDatabase();
       ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
       
       for(int i = 0; i < 7; i++)

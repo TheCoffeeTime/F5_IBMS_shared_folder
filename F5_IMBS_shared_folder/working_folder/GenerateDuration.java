@@ -96,7 +96,7 @@ public class GenerateDuration {
     // along with correct bus numbers for each journey
     public static ArrayList<Duration> generateDuration(Date date, int route358Out, int route358Back)
     {
-        database.openBusDatabase();
+        //database.openBusDatabase();
         
         ArrayList<Duration> duration358Out = generateDuration(date, route358Out);
         ArrayList<Duration> duration358Back = generateDuration(date, route358Back);
@@ -163,7 +163,7 @@ public class GenerateDuration {
     
      public static void main(String[] args)
      {
-        database.openBusDatabase();
+        //database.openBusDatabase();
         Date date =  new Date(2013, 02, 16);
         ArrayList<Duration> duration358 = generateDuration(date, 67, 68);
         ArrayList<Duration> duration383 = generateDuration(date, 65);
