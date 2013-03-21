@@ -26,7 +26,7 @@ public class RoasterGenerator
   public static Roaster GenerateRoaster(Date dateFrom, Date dateTo)
   {
     int interval = ValidateHolidayRequest.calculateInterval(dateFrom, dateTo);
-    ArrayList<ArrayList<Shift>> shift = new ArrayList<ArrayList<Shift>>();
+    ArrayList<ArrayList<Shift>> shift = new ArrayList<ArrayList<Shift>>(7);
     
     //Use calendar to increase the date
     GregorianCalendar currentCal = new GregorianCalendar
@@ -40,6 +40,7 @@ public class RoasterGenerator
        
     for(int i = 0; i < interval; i++)
     {
+      System.out.println("Generating a roster for day" + (i+1));
       shift.set(i, GenerateADayRoaster(currentDate));
       currentCal.add(Calendar.DATE, 1);
       currentDate.setDate(currentCal.get(Calendar.DATE));
@@ -60,11 +61,13 @@ public class RoasterGenerator
   */
   public static ArrayList<Shift> GenerateADayRoaster(Date date)
   {
+    System.out.println("Creating array of durations...");
     ArrayList<Duration> duration358Weekday = GenerateDuration.generateDuration(date, 67, 68);
     ArrayList<Duration> duration383Weekday = GenerateDuration.generateDuration(date, 65);
     ArrayList<Duration> duration384Weekday = GenerateDuration.generateDuration(date, 66);
     
     AvailableBuses buses = new AvailableBuses();
+    System.out.println("Creating array of shift...");
     ArrayList<Shift> shift358 = 
             GenerateArrayOfShift.generateDuration(duration358Weekday, buses);
     ArrayList<Shift> shift383 = 
@@ -72,13 +75,14 @@ public class RoasterGenerator
     ArrayList<Shift> shift384 = 
             GenerateArrayOfShift.generateDuration(duration384Weekday, buses);
     
+    System.out.println("Combining array of shift into one...");
+    shift358.addAll(shift383.size() - 1, shift383);
+    shift358.addAll(shift384.size() - 1, shift384);
+    
+    System.out.println("Assigning drivers to shifts...");
     AssignDriverToShift(shift358, date);
-    AssignDriverToShift(shift383, date);
-    AssignDriverToShift(shift384, date);
    
     //Combine all the shift for different route into one. 
-    shift358.addAll(shift383.size() - 1, shift384);
-    shift358.addAll(shift384.size() - 1, shift384);
     return shift358;
   }//GenerateADayRoaster
   
