@@ -15,13 +15,7 @@ import java.util.Iterator;
 public class GenerateArrayOfShift {
     
     public static ArrayList<Shift> generateDuration(ArrayList<Duration> Durations, AvailableBuses buses)
-    {
-        //database.openBusDatabase();
-        //int buses[] = BusInfo.getBuses();
-       // database.openBusDatabase();
-        //int buses[] = BusInfo.getBuses();
-//        /ArrayList<Boolean> availableBuses = new ArrayList<Boolean>();
-        
+    {       
         ArrayList<Shift> shiftArray = new ArrayList<Shift>();
         
         int numberOfBuses = 1;
