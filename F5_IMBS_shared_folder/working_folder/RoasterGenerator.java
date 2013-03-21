@@ -9,6 +9,12 @@ import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A Roaster generator class used to create a roaster object. This is the
+ * main class of generator a roaster call many other classes including
+ * GenerateDuration, GenerateArrayOfShit, and DriverPrioritising. 
+ * @author Thanakorn
+ */
 public class RoasterGenerator
 {
   public static SystemMsg systemMsg = new SystemMsg();
@@ -103,5 +109,41 @@ public class RoasterGenerator
     }//for
     
     return driverShift;       
-  } //AssignDriverToShift       
+  } //AssignDriverToShift  
+  
+  /* Assign dummy driver to a bus to be used in the AssignDriverToShift method
+   * This create an array of workingDriver(so far) and keep extending it.
+   * @author Henryka
+   */
+  public static ArrayList<Shift> AssignDummyDriverToShift(ArrayList<Shift> driverShift)
+  {
+      ArrayList<WorkingDriver> workingDriver = new ArrayList<WorkingDriver>();
+      //For each shift, assign a driver to it. 
+      int driverFakeID = 0;
+      for(int i = 0; i < driverShift.size(); i++)
+      {
+          boolean shiftAssign = false;
+          for(int j = 0; j < workingDriver.size(); j++)
+          {
+            //If driver can still work (< 10 hours) & have a break
+            if(workingDriver.get(j).totalHr + driverShift.get(i).getDuration() <= 600
+               && driverShift.get(i).timeFrom - workingDriver.get(j).currentEndTime >= 60)
+            {
+                shiftAssign = true;
+                workingDriver.get(j).totalHr += driverShift.get(i).getDuration();
+                workingDriver.get(j).currentEndTime = driverShift.get(i).getTimeTo();
+                break;
+            }//if
+          }//for
+          if(!shiftAssign) //If shift not assigned
+          {
+              WorkingDriver newDriver = new WorkingDriver();
+              newDriver.id = driverFakeID;
+              newDriver.totalHr = driverShift.get(i).getDuration();
+              newDriver.currentEndTime = driverShift.get(i).getTimeTo();
+              driverFakeID++;
+              workingDriver.add(newDriver);
+          }//if
+      }//for
+  }
 }//class
