@@ -41,7 +41,7 @@ public class RoasterGenerator
     for(int i = 0; i < interval; i++)
     {
       System.out.println("Generating a roster for day" + (i+1));
-      shift.set(i, GenerateADayRoaster(currentDate));
+      shift.add(GenerateADayRoaster(currentDate));
       currentCal.add(Calendar.DATE, 1);
       currentDate.setDate(currentCal.get(Calendar.DATE));
       currentDate.setMonth(currentCal.get(Calendar.MONTH));
@@ -50,7 +50,8 @@ public class RoasterGenerator
     
     //Create a roaster object. 
     Roaster roaster = new Roaster
-            (currentCal.get(Calendar.MONTH), currentCal.get(Calendar.YEAR), shift);
+            (currentCal.get(Calendar.MONTH), currentCal.get(Calendar.YEAR), 
+            shift, dateFrom, dateTo);
     return roaster;
     
   }//GenerateRoaster
@@ -76,8 +77,8 @@ public class RoasterGenerator
             GenerateArrayOfShift.generateDuration(duration384Weekday, buses);
     
     System.out.println("Combining array of shift into one...");
-    shift358.addAll(shift383.size() - 1, shift383);
-    shift358.addAll(shift384.size() - 1, shift384);
+    shift358.addAll(shift383);
+    shift358.addAll(shift384);
     
     System.out.println("Assigning drivers to shifts...");
     AssignDriverToShift(shift358, date);
@@ -109,6 +110,7 @@ public class RoasterGenerator
     }  
     
     //get drivers'ID
+    System.out.println(systemMsg.message);
     ArrayList<Integer> driverIDs = DriverPrioritising.getDrivers(date, noOfDriver);
     
     //assign drivers'ID to a driverShift
@@ -129,6 +131,7 @@ public class RoasterGenerator
       ArrayList<WorkingDriver> workingDriver = new ArrayList<WorkingDriver>();
       //For each shift, assign a driver to it. 
       int driverFakeID = 0;
+      System.out.println("Total number of shifts = " + driverShift.size());
       for(int i = 0; i < driverShift.size(); i++)
       {
           boolean shiftAssign = false;
@@ -139,6 +142,7 @@ public class RoasterGenerator
             if(workingDriver.get(j).totalHr + driverShift.get(i).getDuration() <= 600
                && driverShift.get(i).timeFrom - workingDriver.get(j).currentEndTime >= 60)
             {
+                System.out.println("IT HAS COME INTO THIS!");
                 shiftAssign = true; //So that no new driver needed. 
                 //Re-calculate the total number of hours work so far by this driver
                 workingDriver.get(j).totalHr += driverShift.get(i).getDuration();
@@ -165,5 +169,6 @@ public class RoasterGenerator
               workingDriver.add(newDriver);
           }//if
       }//for
+      systemMsg.message = "Number of driver = " + (driverFakeID+1);
   }
 }//class

@@ -14,8 +14,18 @@ public class TestRoasterGenerator {
     public static void main(String[] args)
     {
         database.openBusDatabase();
-        Date dStart = new Date(2012, 11, 1, 0, 0, 0);
-        Date dEnd = new Date(2012, 11, 7, 0, 0, 0);      
+        Date dStart = new Date(2013, 2, 21, 0, 0, 0);
+        Date dEnd = new Date(2013, 2, 21, 0, 0, 0);      
         Roaster r = RoasterGenerator.GenerateRoaster(dStart, dEnd);
-    }
+        
+        for(int i = 0; i < r.shift.get(0).size(); i++)
+        {
+            System.out.println("---------------------------------------------");
+            System.out.println("Driver ID = " + r.shift.get(0).get(i).getDriverID());
+            System.out.println("Bus ID = " + r.shift.get(0).get(i).getBusID());
+            System.out.println("From = " + r.shift.get(0).get(i).getTimeFrom() + 
+                               "To " + r.shift.get(0).get(i).getTimeTo());
+        }//for
+        System.out.println(RoasterGenerator.systemMsg.message);
+    }//main
 }
