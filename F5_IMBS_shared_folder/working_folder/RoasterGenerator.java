@@ -70,11 +70,11 @@ public class RoasterGenerator
     AvailableBuses buses = new AvailableBuses();
     System.out.println("Creating array of shift...");
     ArrayList<Shift> shift358 = 
-            GenerateArrayOfShift.generateDuration(duration358Weekday, buses);
+            GenerateArrayOfShift.generateDuration(duration358Weekday, buses, 358);
     ArrayList<Shift> shift383 = 
-            GenerateArrayOfShift.generateDuration(duration383Weekday, buses);
+            GenerateArrayOfShift.generateDuration(duration383Weekday, buses, 383);
     ArrayList<Shift> shift384 = 
-            GenerateArrayOfShift.generateDuration(duration384Weekday, buses);
+            GenerateArrayOfShift.generateDuration(duration384Weekday, buses, 384);
     
     System.out.println("Combining array of shift into one...");
     shift358.addAll(shift383);
@@ -111,7 +111,7 @@ public class RoasterGenerator
     
     //get drivers'ID
     System.out.println(systemMsg.message);
-    ArrayList<Integer> driverIDs = DriverPrioritising.getDrivers(date, noOfDriver);
+    ArrayList<Integer> driverIDs = Group.getDrivers(date, noOfDriver);
     
     //assign drivers'ID to a driverShift
     for (int i=0; i<driverShift.size(); i++)

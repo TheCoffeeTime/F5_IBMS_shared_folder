@@ -24,7 +24,7 @@ public class GenerateDuration {
     // also used for 358out and 358back to return durations for them
     public static ArrayList<Duration> generateDuration(Date date, int route)
     {
-        database.openBusDatabase();
+        //database.openBusDatabase();
         int noOfServices = TimetableInfo.getNumberOfServices(route, date);
         int[] serviceTimes;
         int[] services = TimetableInfo.getServices(route, TimetableInfo.timetableKind(date));
