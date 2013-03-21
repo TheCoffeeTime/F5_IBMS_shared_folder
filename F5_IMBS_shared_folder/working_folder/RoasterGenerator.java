@@ -80,10 +80,11 @@ public class RoasterGenerator
   
   
   /*A Method to assigne drivers to shifts.
-   * author: Henryka Reszka
+   * @author Henryka Reszka
    */
   public static ArrayList<Shift> AssignDriverToShift(ArrayList<Shift> driverShift, Date date)
   {
+    AssignDummyDriverToShift(driverShift);
     //create an array of drivers  
     int[] drivers = new int[70];
     int noOfDriver=0; 
@@ -113,9 +114,9 @@ public class RoasterGenerator
   
   /* Assign dummy driver to a bus to be used in the AssignDriverToShift method
    * This create an array of workingDriver(so far) and keep extending it.
-   * @author Henryka
+   * @author Henryka Reszka
    */
-  public static ArrayList<Shift> AssignDummyDriverToShift(ArrayList<Shift> driverShift)
+  public static void AssignDummyDriverToShift(ArrayList<Shift> driverShift)
   {
       ArrayList<WorkingDriver> workingDriver = new ArrayList<WorkingDriver>();
       //For each shift, assign a driver to it. 
@@ -123,25 +124,36 @@ public class RoasterGenerator
       for(int i = 0; i < driverShift.size(); i++)
       {
           boolean shiftAssign = false;
+          //For each driver in the workingDriver array
           for(int j = 0; j < workingDriver.size(); j++)
           {
             //If driver can still work (< 10 hours) & have a break
             if(workingDriver.get(j).totalHr + driverShift.get(i).getDuration() <= 600
                && driverShift.get(i).timeFrom - workingDriver.get(j).currentEndTime >= 60)
             {
-                shiftAssign = true;
+                shiftAssign = true; //So that no new driver needed. 
+                //Re-calculate the total number of hours work so far by this driver
                 workingDriver.get(j).totalHr += driverShift.get(i).getDuration();
+                //Re-calculate the currentEndTime of the selected working driver
                 workingDriver.get(j).currentEndTime = driverShift.get(i).getTimeTo();
-                break;
+                //Set that driver shift to contain a fake driver id
+                driverShift.get(i).setDriverID(workingDriver.get(j).id);
+                break; //Break out if found a driver for this shift. 
             }//if
           }//for
-          if(!shiftAssign) //If shift not assigned
+          //If shift not assigned. If no driver assigned from the above for loop.
+          if(!shiftAssign)
           {
+              //Create a new working driver
               WorkingDriver newDriver = new WorkingDriver();
+              //Initialise the new working driverID, totalHR, and currentEndTime
               newDriver.id = driverFakeID;
               newDriver.totalHr = driverShift.get(i).getDuration();
               newDriver.currentEndTime = driverShift.get(i).getTimeTo();
+              //Set that driver shift to contain a fake driver id
+              driverShift.get(i).setDriverID(newDriver.id);
               driverFakeID++;
+              //Add the newly created workingDriver to the workingDriver array. 
               workingDriver.add(newDriver);
           }//if
       }//for
