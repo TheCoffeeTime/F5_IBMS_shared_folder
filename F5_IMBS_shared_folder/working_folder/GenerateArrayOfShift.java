@@ -18,7 +18,7 @@ public class GenerateArrayOfShift {
     {
         //database.openBusDatabase();
         //int buses[] = BusInfo.getBuses();
-        database.openBusDatabase();
+       // database.openBusDatabase();
         //int buses[] = BusInfo.getBuses();
 //        /ArrayList<Boolean> availableBuses = new ArrayList<Boolean>();
         

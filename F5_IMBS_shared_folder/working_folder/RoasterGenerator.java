@@ -64,9 +64,13 @@ public class RoasterGenerator
     ArrayList<Duration> duration383Weekday = GenerateDuration.generateDuration(date, 65);
     ArrayList<Duration> duration384Weekday = GenerateDuration.generateDuration(date, 66);
     
-    ArrayList<Shift> shift358 = GenerateArrayOfShift.generateDuration(duration358Weekday);
-    ArrayList<Shift> shift383 = GenerateArrayOfShift.generateDuration(duration383Weekday);
-    ArrayList<Shift> shift384 = GenerateArrayOfShift.generateDuration(duration384Weekday);
+    AvailableBuses buses = new AvailableBuses();
+    ArrayList<Shift> shift358 = 
+            GenerateArrayOfShift.generateDuration(duration358Weekday, buses);
+    ArrayList<Shift> shift383 = 
+            GenerateArrayOfShift.generateDuration(duration383Weekday, buses);
+    ArrayList<Shift> shift384 = 
+            GenerateArrayOfShift.generateDuration(duration384Weekday, buses);
     
     AssignDriverToShift(shift358, date);
     AssignDriverToShift(shift383, date);
