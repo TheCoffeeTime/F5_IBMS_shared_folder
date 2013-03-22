@@ -295,7 +295,6 @@ public class viewTimetable extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>
-
     /**
      * @param args the command line arguments
      */

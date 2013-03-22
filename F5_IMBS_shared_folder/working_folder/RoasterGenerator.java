@@ -40,7 +40,8 @@ public class RoasterGenerator
        
     for(int i = 0; i < interval; i++)
     {
-      System.out.println("Generating a roster for day" + (i+1));
+      System.out.println("--------------------------------------------------");
+      System.out.println("Generating a roster for day " + (i+1));
       shift.add(GenerateADayRoaster(currentDate));
       currentCal.add(Calendar.DATE, 1);
       currentDate.setDate(currentCal.get(Calendar.DATE));
@@ -111,7 +112,7 @@ public class RoasterGenerator
     
     //get drivers'ID
     System.out.println(systemMsg.message);
-    ArrayList<Integer> driverIDs = Group.getDrivers(date, noOfDriver);
+    ArrayList<Integer> driverIDs = DriverPrioritising.getDrivers(date, noOfDriver);
     
     //assign drivers'ID to a driverShift
     for (int i=0; i<driverShift.size(); i++)
@@ -142,7 +143,6 @@ public class RoasterGenerator
             if(workingDriver.get(j).totalHr + driverShift.get(i).getDuration() <= 600
                && driverShift.get(i).timeFrom - workingDriver.get(j).currentEndTime >= 60)
             {
-                System.out.println("IT HAS COME INTO THIS!");
                 shiftAssign = true; //So that no new driver needed. 
                 //Re-calculate the total number of hours work so far by this driver
                 workingDriver.get(j).totalHr += driverShift.get(i).getDuration();
@@ -171,4 +171,62 @@ public class RoasterGenerator
       }//for
       systemMsg.message = "Number of driver = " + (driverFakeID+1);
   }
+  
+    public String[][] dayGUI(int dayID, Roaster roster)
+    {
+
+        String[][] rosterGUI = new String[3][21];
+        Date dateFrom = roster.dateFrom;
+        
+        //Create a new calendar for current date
+        GregorianCalendar currentCal = new GregorianCalendar
+             (dateFrom.getYear(), dateFrom.getMonth(), 
+              dateFrom.getDate(), 0, 0, 0);
+
+        int dayIncreasedBy = 0;
+        Date requiredDate = new Date(dateFrom.getYear(), dateFrom.getMonth(), 
+                                dateFrom.getDate(), 0, 0, 0);
+
+        while(true) 
+        { 
+            if(currentCal.get(GregorianCalendar.DAY_OF_WEEK) != dayID)
+            {
+                currentCal.add(Calendar.DATE, 1);
+                dayIncreasedBy++;
+            }//if
+            else
+                break;
+        }//while
+        requiredDate.setDate(currentCal.get(Calendar.DATE));
+        requiredDate.setMonth(currentCal.get(Calendar.MONTH));
+        requiredDate.setYear(currentCal.get(Calendar.YEAR));
+
+        //For day. 
+        int starting = 300; //Start at 5:00 am -> 300/60 = 5:00
+        int minsInHr = 60;
+        for(int i = 0; i < roster.shift.get(dayIncreasedBy).size(); i++)
+        {
+            int service = 0;
+            switch (roster.shift.get(dayIncreasedBy).get(i).getService)
+            {
+                  case 358: service = 0;
+                            break;
+                  case 383: service = 1;
+                            break;
+                  case 384: service = 2;
+                            break;
+            }
+            int index = 1;
+            Shift currentShift = roster.shift.get(dayIncreasedBy).get(i);
+            index = ((currentShift.getTimeFrom() - starting) / 60) +1;
+            while(index * minsInHr > currentShift.getTimeTo() - starting)
+            {
+              rosterGUI[service][index] += 
+                      ("Driver id = " + currentShift.getDriverID() 
+                      + "Bus id = " + currentShift.getBusID() + "\n");
+              index++;
+            }//while
+        }//for
+    return rosterGUI;
+    }//dayGUI
 }//class
