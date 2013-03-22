@@ -70,11 +70,11 @@ public class RoasterGenerator
     AvailableBuses buses = new AvailableBuses();
     System.out.println("Creating array of shift...");
     ArrayList<Shift> shift358 = 
-            GenerateArrayOfShift.generateDuration(duration358Weekday, buses, 358);
+            GenerateArrayOfShift.generateDuration(duration358Weekday, buses);
     ArrayList<Shift> shift383 = 
-            GenerateArrayOfShift.generateDuration(duration383Weekday, buses, 383);
+            GenerateArrayOfShift.generateDuration(duration383Weekday, buses);
     ArrayList<Shift> shift384 = 
-            GenerateArrayOfShift.generateDuration(duration384Weekday, buses, 384);
+            GenerateArrayOfShift.generateDuration(duration384Weekday, buses);
     
     System.out.println("Combining array of shift into one...");
     shift358.addAll(shift383);
