@@ -14,7 +14,7 @@ import java.util.Iterator;
  */
 public class GenerateArrayOfShift {
     
-    public static ArrayList<Shift> generateDuration(ArrayList<Duration> Durations, AvailableBuses buses)
+    public static ArrayList<Shift> generateDuration(ArrayList<Duration> Durations, AvailableBuses buses, int route)
     {       
         ArrayList<Shift> shiftArray = new ArrayList<Shift>();
         
@@ -73,7 +73,7 @@ public class GenerateArrayOfShift {
                       }
                       //buses.getBuses()
                       Shift tempShift = new Shift(0, nextAvailableBus,
-                                                  startTime, endTime);
+                                                  startTime, endTime, route);
                       shiftArray.add(tempShift);
                       // Set start & end time of the next shift
                       startTime = Durations.get(i).getStartTime();
@@ -95,7 +95,7 @@ public class GenerateArrayOfShift {
                       }
                       
                       Shift tempShift = new Shift(0, nextAvailableBus,
-                                                  startTime, endTime);
+                                                  startTime, endTime, route);
                       shiftArray.add(tempShift);
               }
             }
@@ -144,7 +144,7 @@ public class GenerateArrayOfShift {
         
         // Nikita's test code
         AvailableBuses buses = new AvailableBuses();
-        ArrayList<Shift> shiftArray = generateDuration(duration358, buses);
+        ArrayList<Shift> shiftArray = generateDuration(duration358, buses, 358);
         
         for (int i = 0; i < shiftArray.size(); i++)
         {
@@ -154,10 +154,11 @@ public class GenerateArrayOfShift {
                                "Driver ID: " + shiftArray.get(i).getDriverID() + " | " +
                                "Bus ID: " + shiftArray.get(i).getBusID() + " | " +
                                "Shift duration: " + (shiftArray.get(i).getTimeTo() - 
-                                                     shiftArray.get(i).getTimeFrom()));
+                                                     shiftArray.get(i).getTimeFrom()) + " | " +
+                               "Route ID: " + shiftArray.get(i).getRouteID());
         }
         
-        shiftArray = generateDuration(duration383, buses);
+        shiftArray = generateDuration(duration383, buses, 383);
         
         for (int i = 0; i < shiftArray.size(); i++)
         {
@@ -167,7 +168,8 @@ public class GenerateArrayOfShift {
                                "Driver ID: " + shiftArray.get(i).getDriverID() + " | " +
                                "Bus ID: " + shiftArray.get(i).getBusID() + " | " +
                                "Shift duration: " + (shiftArray.get(i).getTimeTo() - 
-                                                     shiftArray.get(i).getTimeFrom()));
+                                                     shiftArray.get(i).getTimeFrom()) + " | " +
+                               "Route ID: " + shiftArray.get(i).getRouteID());
         }       
         
         

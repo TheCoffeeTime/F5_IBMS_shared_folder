@@ -22,13 +22,13 @@ public class Group {
   
   // Groups timetable for a week
   private static int [][] weekdaysGroups = {
-          {1,4,5,6,7},
-          {1,2,5,6,7},
-          {1,2,3,6,7},
-          {1,2,3,4,7},
+          {1,4,5,6,0},
+          {1,2,5,6,0},
+          {1,2,3,6,0},
+          {1,2,3,4,0},
           {1,2,3,4,5},
           {2,3,4,5,6},
-          {3,4,5,6,7}
+          {3,4,5,6,0}
       };  
   
   // Returns an array of driver groups for a specific Date
@@ -66,16 +66,25 @@ public class Group {
       
       int[] dayGroups = getGroupsInAWeekday(date);
       
+      System.out.println("Groups: ");
+      for (int i = 0; i < dayGroups.length; i++)
+      {
+          System.out.print(dayGroups[i] + ", ");
+      }
+            
+      
       ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
       groups = groupDrivers();
       
       int addedDrivers = 0;
       // Print Drivers in all Groups
       boolean is = false;
+      
       for (int i = 0; i < 7; i++)
       {
           for (int j = 0; j < dayGroups.length; j++)
           {
+              System.out.println("dayGroups[j] =  " + dayGroups[j] + " i = " + i);
               if (dayGroups[j] == i)
               {
                   is = true;
@@ -108,7 +117,7 @@ public class Group {
   {     
       ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
       groups = groupDrivers();
-      /*
+      
       // Print Drivers in all Groups
       for (int i = 0; i < 7; i++)
       {
@@ -119,7 +128,7 @@ public class Group {
           }
           System.out.println();    
       }
-      
+      /*
       // Print Groups for a specific Date
       Date test = new Date(2013, 2, 9);
       int[] dayGroups = getGroupsInAWeekday(test);
@@ -133,7 +142,7 @@ public class Group {
        Date test = new Date(2013, 2, 9);
        System.out.println("Test get driver:");
        ArrayList<Integer> Drivers = new ArrayList<Integer>();
-       Drivers = getDrivers(test, 40);
+       Drivers = getDrivers(test, 50);
        System.out.println("Number of drivers: "+ Drivers.size());
        for( int j = 0; j < Drivers.size(); j++)
        {
