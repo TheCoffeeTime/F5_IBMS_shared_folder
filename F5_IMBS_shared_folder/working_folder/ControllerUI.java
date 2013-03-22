@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.Component;
 import javax.swing.table.*;
 import java.awt.event.*;
+import java.util.Date;
 import javax.swing.*;
 
 public class ControllerUI extends javax.swing.JFrame {
@@ -36,21 +37,18 @@ public class ControllerUI extends javax.swing.JFrame {
         jLabel1.setText("Controller Interface");
 
         viewTable.setText("View Timetable");
-        viewTable.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) 
-            {
-                if(genRoster == 1){
-                viewTimetable.main(new String[0]);
-            }  
-          }
-        });
-
-        genRos.setText("Generate Roster");
         genRos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) 
             {
+                viewTimetable.main(new String[0]);
+            }  
+        });
+
+        genRos.setText("Generate Roster");
+        viewTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) 
+            {
                 /*call algoritum method to generate the roster*/
-                genRoster = 1;
             }
         });
 
@@ -114,7 +112,10 @@ public class ControllerUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ControllerUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+         database.openBusDatabase();
+       Date dateFrom = new Date(2013, 2, 22, 0, 0, 0);
+       Date dateTo = new Date(2013, 2, 28, 0, 0, 0);
+       RoasterGenerator.GenerateRoaster(dateFrom, dateTo);
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

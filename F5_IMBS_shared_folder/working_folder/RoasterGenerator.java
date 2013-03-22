@@ -18,12 +18,14 @@ import java.util.List;
 public class RoasterGenerator
 {
   public static SystemMsg systemMsg = new SystemMsg();
+  public static Roaster roster;
+  
    
   /*
     A method that used to generate a roaster given DateFrom and DateTo. 
     A Roaster Object will be created from the dateFrom and dateTo given
   */ 
-  public static Roaster GenerateRoaster(Date dateFrom, Date dateTo)
+  public static void GenerateRoaster(Date dateFrom, Date dateTo)
   {
     int interval = ValidateHolidayRequest.calculateInterval(dateFrom, dateTo);
     ArrayList<ArrayList<Shift>> shift = new ArrayList<ArrayList<Shift>>(7);
@@ -50,10 +52,9 @@ public class RoasterGenerator
     }//for
     
     //Create a roaster object. 
-    Roaster roaster = new Roaster
+    roster = new Roaster
             (currentCal.get(Calendar.MONTH), currentCal.get(Calendar.YEAR), 
             shift, dateFrom, dateTo);
-    return roaster;
     
   }//GenerateRoaster
   
@@ -71,11 +72,11 @@ public class RoasterGenerator
     AvailableBuses buses = new AvailableBuses();
     System.out.println("Creating array of shift...");
     ArrayList<Shift> shift358 = 
-            GenerateArrayOfShift.generateDuration(duration358Weekday, buses);
+            GenerateArrayOfShift.generateDuration(duration358Weekday, buses, 358);
     ArrayList<Shift> shift383 = 
-            GenerateArrayOfShift.generateDuration(duration383Weekday, buses);
+            GenerateArrayOfShift.generateDuration(duration383Weekday, buses, 383);
     ArrayList<Shift> shift384 = 
-            GenerateArrayOfShift.generateDuration(duration384Weekday, buses);
+            GenerateArrayOfShift.generateDuration(duration384Weekday, buses, 384);
     
     System.out.println("Combining array of shift into one...");
     shift358.addAll(shift383);
@@ -172,10 +173,17 @@ public class RoasterGenerator
       systemMsg.message = "Number of driver = " + (driverFakeID+1);
   }
   
-    public String[][] dayGUI(int dayID, Roaster roster)
+    public static String[][] dayGUI(int dayID, Roaster roster)
     {
 
         String[][] rosterGUI = new String[3][21];
+        for(int i = 0; i < 21; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {   
+                rosterGUI[j][i] = "";
+            }//for
+        }
         Date dateFrom = roster.dateFrom;
         
         //Create a new calendar for current date
@@ -200,6 +208,7 @@ public class RoasterGenerator
         requiredDate.setDate(currentCal.get(Calendar.DATE));
         requiredDate.setMonth(currentCal.get(Calendar.MONTH));
         requiredDate.setYear(currentCal.get(Calendar.YEAR));
+        System.out.println("Match date = " + requiredDate.getDate());
 
         //For day. 
         int starting = 300; //Start at 5:00 am -> 300/60 = 5:00
@@ -207,7 +216,7 @@ public class RoasterGenerator
         for(int i = 0; i < roster.shift.get(dayIncreasedBy).size(); i++)
         {
             int service = 0;
-            switch (roster.shift.get(dayIncreasedBy).get(i).getService)
+            switch (roster.shift.get(dayIncreasedBy).get(i).getRouteID())
             {
                   case 358: service = 0;
                             break;
@@ -219,13 +228,13 @@ public class RoasterGenerator
             int index = 1;
             Shift currentShift = roster.shift.get(dayIncreasedBy).get(i);
             index = ((currentShift.getTimeFrom() - starting) / 60) +1;
-            while(index * minsInHr > currentShift.getTimeTo() - starting)
+            do
             {
               rosterGUI[service][index] += 
-                      ("Driver id = " + currentShift.getDriverID() 
-                      + "Bus id = " + currentShift.getBusID() + "\n");
+                      ("DriverID = " + currentShift.getDriverID() 
+                      + ": BusID = " + currentShift.getBusID() + "\n");
               index++;
-            }//while
+            }while(index * minsInHr < currentShift.getTimeTo() - starting);
         }//for
     return rosterGUI;
     }//dayGUI

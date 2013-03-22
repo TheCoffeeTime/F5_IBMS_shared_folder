@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.Component;
 import javax.swing.table.*;
 import java.awt.event.*;
+import java.util.Date;
 import javax.swing.*;
 
 /**
@@ -48,17 +49,17 @@ public class viewTimetable extends javax.swing.JFrame {
         timeTable.getTableHeader().setReorderingAllowed(false);
         timeTable.setModel(new DefaultTableModel(
             new Object [][] {
-                {"358", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {"383", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {"384", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}},
+                {"358", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {"383", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {"384", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}},
             new String [] {
-                "Service", "6:00 - 7:00", "7:00 - 8:00", "8:00 - 9:00", "9:00 - 10:00", "10:00 - 11:00", 
+                "Service", "5:00 - 6:00", "6:00 - 7:00", "7:00 - 8:00", "8:00 - 9:00", "9:00 - 10:00", "10:00 - 11:00", 
                 "11:00 - 12:00", "12:00 - 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00", "16:00 - 17:00", 
                 "17:00 - 18:00", "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00", "21:00 - 22:00", "22:00 - 23:00", 
                 "23:00 - 00:00", "00:00 - 1:00"}
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
                     
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -66,7 +67,7 @@ public class viewTimetable extends javax.swing.JFrame {
             }
         });
         
-        for(int i = 0; i<=19; i++)
+        for(int i = 0; i<21; i++)
         {
             tcol = timeTable.getColumnModel().getColumn(i);
             tcol.setCellRenderer(new cellRenderer());
@@ -74,9 +75,9 @@ public class viewTimetable extends javax.swing.JFrame {
         
         jScrollPane3.setViewportView(timeTable);
      
-        for(int column=0; column<=19; column++)
+        for(int column=0; column<21; column++)
         {
-            timeTable.getColumnModel().getColumn(column).setMinWidth(80);
+            timeTable.getColumnModel().getColumn(column).setPreferredWidth(120);
             timeTable.getColumnModel().getColumn(column).setResizable(false);
         }
         for(int row=0; row<=3; row++)
@@ -90,7 +91,7 @@ public class viewTimetable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Daylabel)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1723, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 4000, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -111,39 +112,56 @@ public class viewTimetable extends javax.swing.JFrame {
         final JComboBox combobox = new JComboBox();
         final JComboBox combobox1 = new JComboBox();
         
-        combobox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Select --", "Weekly", "Daily" }));
+        combobox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Select --","Weekly", "Daily" }));
         
-        combobox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Select --","Monday", "Tuesday", "Wednesday", "Thursday", 
+        combobox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", 
                                                                                 "Friday", "Saturday", "Sunday" }));
-        combobox1.setVisible(false);
-        
+        combobox1.setVisible(true);
+        combobox.setVisible(false);
         /*creating the Button*/
         final JButton button = new JButton();                                                        
         button.setText("OK!");
         button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 
-                String selType = combobox.getSelectedItem().toString();
+                String selType = /*combobox.getSelectedItem().toString();*/ "Daily";
                 String selDay = combobox1.getSelectedItem().toString();
                 
                           
                 if(selType == "Daily")
                 {
                     data = new Object[][] {
-                            {"358 ", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                            {"383", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                            {"384", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}};
+                            {"358 ", null, null, null, null, null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null},
+                            {"383", null, null, null, null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null},
+                            {"384", null, null, null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null}};
                     
-                    columnName = new String [] {"Service", "6:00 - 7:00", "7:00 - 8:00", "8:00 - 9:00", "9:00 - 10:00", 
+                    columnName = new String [] {"Service", "5:00 - 6:00" , "6:00 - 7:00", "7:00 - 8:00", "8:00 - 9:00", "9:00 - 10:00", 
                         "10:00 - 11:00", "11:00 - 12:00", "12:00 - 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00", 
                         "16:00 - 17:00", "17:00 - 18:00", "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00", "21:00 - 22:00", 
                         "22:00 - 23:00", "23:00 - 00:00", "00:00 - 1:00"};
                     
-                    for(int column = 1; column <= 19; column++)
+                    if (selDay.compareTo("Monday") == 0)
+                        dayID = 2;
+                    else if(selDay.compareTo("Tuesday") == 0)
+                        dayID = 3;
+                    else if(selDay.compareTo("Wednesday") == 0)
+                        dayID = 4;
+                    else if(selDay.compareTo("Thursday") == 0)
+                        dayID = 5;
+                    else if(selDay.compareTo("Friday") == 0)
+                        dayID = 6;
+                    else if(selDay.compareTo("Saturday") == 0)
+                        dayID = 7;
+                    else if (selDay.compareTo("Sunday") == 0)
+                        dayID = 1;
+
+                    System.out.println("Date you have selected is "+selDay);
+                    String[][] toBePrinted = RoasterGenerator.dayGUI(dayID, RoasterGenerator.roster);
+                    for(int column = 1; column < 21; column++)
                     {
-                        for(int row = 0; row <= 2; row++)
+                        for(int row = 0; row < 3; row++)
                         {
-                            data[row][column] = "test";
+                            data[row][column] = toBePrinted[row][column];
                         }
                     }
                     
@@ -153,49 +171,49 @@ public class viewTimetable extends javax.swing.JFrame {
                     
                     if (selDay == "Monday")
                     {
-                        dayID = 1;
+                        dayID = 2;
                         jScrollPane3.setVisible(true);
                         DailyPanel.setVisible(true);
                         Daylabel.setText("Monday Roster");
                     }
                     else if(selDay == "Tuesday")
                     {
-                        dayID = 2;
+                        dayID = 3;
                         jScrollPane3.setVisible(true);
                         DailyPanel.setVisible(true);
                         Daylabel.setText("Tuesday Roster");
                     }
                     else if(selDay == "Wednesday")
                     {
-                        dayID = 3;
+                        dayID = 4;
                         jScrollPane3.setVisible(true);
                         DailyPanel.setVisible(true);
                         Daylabel.setText("Wednesday Roster");
                     }
                     else if(selDay == "Thursday")
                     {
-                        dayID = 4;
+                        dayID = 5;
                         jScrollPane3.setVisible(true);
                         DailyPanel.setVisible(true);
                         Daylabel.setText("Thursday Roster");
                     }
                     else if(selDay == "Friday")
                     {
-                        dayID = 5;
+                        dayID = 6;
                         jScrollPane3.setVisible(true);
                         DailyPanel.setVisible(true);
                         Daylabel.setText("Friday Roster");
                     }
                     else if(selDay == "Saturday")
                     {
-                        dayID = 6;
+                        dayID = 7;
                         jScrollPane3.setVisible(true);
                         DailyPanel.setVisible(true);
                         Daylabel.setText("Saturday Roster");
                     }
                     else if(selDay == "Sunday")
                     {
-                        dayID = 7;
+                        dayID = 1;
                         jScrollPane3.setVisible(true);
                         DailyPanel.setVisible(true);
                         Daylabel.setText("Sunday Roster");

@@ -23,8 +23,8 @@ class cellRenderer extends JTextArea implements TableCellRenderer {
   public Component getTableCellRendererComponent(JTable table, Object value,
       boolean isSelected, boolean hasFocus, int row, int column) {
     if (isSelected) {
-      setForeground(table.getSelectionForeground());
-      setBackground(table.getSelectionBackground());
+      //setForeground(table.getSelectionForeground());
+      //setBackground(table.getSelectionBackground());
     } else {
       setForeground(table.getForeground());
       setBackground(table.getBackground());

@@ -31,27 +31,27 @@ public class TestGenerateArrayOfShift {
         ArrayList<Duration> duration384Weekday = GenerateDuration.generateDuration(weekdayDate, 66);
         
         AvailableBuses buses = new AvailableBuses();
-        ArrayList<Shift> shift358Weekday = GenerateArrayOfShift.generateDuration(duration358Weekday, buses);
-        ArrayList<Shift> shift383Weekday = GenerateArrayOfShift.generateDuration(duration383Weekday, buses);
-        ArrayList<Shift> shift384Weekday = GenerateArrayOfShift.generateDuration(duration384Weekday, buses);
+        ArrayList<Shift> shift358Weekday = GenerateArrayOfShift.generateDuration(duration358Weekday, buses, 358);
+        ArrayList<Shift> shift383Weekday = GenerateArrayOfShift.generateDuration(duration383Weekday, buses, 383);
+        ArrayList<Shift> shift384Weekday = GenerateArrayOfShift.generateDuration(duration384Weekday, buses, 384);
         
         ArrayList<Duration> duration358Saturday = GenerateDuration.generateDuration(saturdayDate, 67, 68);
         ArrayList<Duration> duration383Saturday = GenerateDuration.generateDuration(saturdayDate, 65);
         ArrayList<Duration> duration384Saturday = GenerateDuration.generateDuration(saturdayDate, 66);
         
         buses = new AvailableBuses();
-        ArrayList<Shift> shift358Saturday = GenerateArrayOfShift.generateDuration(duration358Saturday, buses);
-        ArrayList<Shift> shift383Saturday = GenerateArrayOfShift.generateDuration(duration383Saturday, buses);
-        ArrayList<Shift> shift384Saturday = GenerateArrayOfShift.generateDuration(duration384Saturday, buses);
+        ArrayList<Shift> shift358Saturday = GenerateArrayOfShift.generateDuration(duration358Saturday, buses, 358);
+        ArrayList<Shift> shift383Saturday = GenerateArrayOfShift.generateDuration(duration383Saturday, buses, 383);
+        ArrayList<Shift> shift384Saturday = GenerateArrayOfShift.generateDuration(duration384Saturday, buses, 384);
         
         ArrayList<Duration> duration358Sunday = GenerateDuration.generateDuration(sundayDate, 67, 68);
         ArrayList<Duration> duration383Sunday = GenerateDuration.generateDuration(sundayDate, 65);
         ArrayList<Duration> duration384Sunday = GenerateDuration.generateDuration(sundayDate, 66);
         
         buses = new AvailableBuses();
-        ArrayList<Shift> shift358Sunday = GenerateArrayOfShift.generateDuration(duration358Sunday, buses);
-        ArrayList<Shift> shift383Sunday = GenerateArrayOfShift.generateDuration(duration383Sunday, buses);
-        ArrayList<Shift> shift384Sunday = GenerateArrayOfShift.generateDuration(duration384Sunday, buses);
+        ArrayList<Shift> shift358Sunday = GenerateArrayOfShift.generateDuration(duration358Sunday, buses, 358);
+        ArrayList<Shift> shift383Sunday = GenerateArrayOfShift.generateDuration(duration383Sunday, buses, 383);
+        ArrayList<Shift> shift384Sunday = GenerateArrayOfShift.generateDuration(duration384Sunday, buses, 384);
         
         
         // loop though each array list and check that there no shift exceeds 5 hours
