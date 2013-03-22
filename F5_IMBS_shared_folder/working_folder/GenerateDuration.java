@@ -24,7 +24,7 @@ public class GenerateDuration {
     // also used for 358out and 358back to return durations for them
     public static ArrayList<Duration> generateDuration(Date date, int route)
     {
-        //database.openBusDatabase();
+        database.openBusDatabase();
         int noOfServices = TimetableInfo.getNumberOfServices(route, date);
         int[] serviceTimes;
         int[] services = TimetableInfo.getServices(route, TimetableInfo.timetableKind(date));
@@ -56,8 +56,8 @@ public class GenerateDuration {
             serviceTimes = TimetableInfo.getServiceTimes(route, TimetableInfo.timetableKind(date), i);
             Duration tempDuration2 = new Duration(serviceTimes[0], serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));                    
             
-            if(serviceTimes.length < 10)
-                tempDuration2 = new Duration(serviceTimes[0] - 42, serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
+            if(serviceTimes.length < 4)
+               tempDuration2 = new Duration(serviceTimes[0] - 42, serviceTimes[serviceTimes.length - 1], noOfBuses, busIndex.get(noOfBuses));
             
             // when the end time of a service runs into the start time of another service we need another bus
             if(tempDuration.getEndTime() > tempDuration2.getStartTime())
@@ -81,7 +81,10 @@ public class GenerateDuration {
             }
             if(tempDuration2.getDuration() > 1000)
             {
-                tempDuration = tempDuration2 = new Duration(serviceTimes[serviceTimes.length - 1], serviceTimes[0] + 1528, noOfBuses, busIndex.get(noOfBuses));
+                if(tempDuration2.getStartTime() == - 39)
+                  tempDuration2 = tempDuration2 = new Duration(serviceTimes[serviceTimes.length - 1], serviceTimes[0] + 1528, noOfBuses, busIndex.get(noOfBuses));
+                else
+                   tempDuration2 = tempDuration2 = new Duration(serviceTimes[serviceTimes.length - 1], serviceTimes[0] + 1440, noOfBuses, busIndex.get(noOfBuses)); 
             }
             Duration newDuration = tempDuration2;
             durationArray.add(newDuration);
@@ -96,7 +99,7 @@ public class GenerateDuration {
     // along with correct bus numbers for each journey
     public static ArrayList<Duration> generateDuration(Date date, int route358Out, int route358Back)
     {
-        //database.openBusDatabase();
+        database.openBusDatabase();
         
         ArrayList<Duration> duration358Out = generateDuration(date, route358Out);
         ArrayList<Duration> duration358Back = generateDuration(date, route358Back);
@@ -164,7 +167,7 @@ public class GenerateDuration {
      public static void main(String[] args)
      {
         //database.openBusDatabase();
-        Date date =  new Date(2013, 02, 16);
+        Date date =  new Date(2013, 02, 13);
         ArrayList<Duration> duration358 = generateDuration(date, 67, 68);
         ArrayList<Duration> duration383 = generateDuration(date, 65);
         ArrayList<Duration> duration384 = generateDuration(date, 66);
