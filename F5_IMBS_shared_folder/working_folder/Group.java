@@ -62,17 +62,11 @@ public class Group {
   
   public static ArrayList<Integer> getDrivers(Date date, int numberOfDrivers)
   {   
+      
       ArrayList<Integer> Drivers = new ArrayList<Integer>();
       
       int[] dayGroups = getGroupsInAWeekday(date);
-      
-      System.out.println("Groups: ");
-      for (int i = 0; i < dayGroups.length; i++)
-      {
-          System.out.print(dayGroups[i] + ", ");
-      }
             
-      
       ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
       groups = groupDrivers();
       
@@ -84,7 +78,6 @@ public class Group {
       {
           for (int j = 0; j < dayGroups.length; j++)
           {
-              System.out.println("dayGroups[j] =  " + dayGroups[j] + " i = " + i);
               if (dayGroups[j] == i)
               {
                   is = true;
@@ -94,19 +87,15 @@ public class Group {
                   is = false;
           }
           if (is ==true )
-          {
-            System.out.print("Group Number " + i + ": ");
-        
+          {        
             for( int j = 0; j < groups.get(i).size(); j++)
             {
               if (addedDrivers < numberOfDrivers)
               {
-                System.out.print(groups.get(i).get(j) +", ");
                 Drivers.add(groups.get(i).get(j));
                 addedDrivers++;
               }
             }
-            System.out.println();
           }
       }
       return Drivers;
@@ -128,7 +117,7 @@ public class Group {
           }
           System.out.println();    
       }
-      /*
+
       // Print Groups for a specific Date
       Date test = new Date(2013, 2, 9);
       int[] dayGroups = getGroupsInAWeekday(test);
@@ -138,15 +127,22 @@ public class Group {
       {
           System.out.print(dayGroups[i] + ", ");
       }
-      * */
-       Date test = new Date(2013, 2, 9);
+
        System.out.println("Test get driver:");
        ArrayList<Integer> Drivers = new ArrayList<Integer>();
-       Drivers = getDrivers(test, 50);
+       Drivers = getDrivers(test, 44);
        System.out.println("Number of drivers: "+ Drivers.size());
        for( int j = 0; j < Drivers.size(); j++)
        {
          System.out.print(Drivers.get(j) +", ");
        }
+       
+       ArrayList<Integer> groupsThatCanWork = new ArrayList<Integer>();
+       groupsThatCanWork = DriverPrioritising.getDrivers(test, 44);
+        
+        for (int i = 0; i < groupsThatCanWork.size(); i++)
+        {
+            System.out.println("Driver that can work: " + groupsThatCanWork.get(i) + " " + (i+1));
+        }
   }   
 }
