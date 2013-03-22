@@ -27,10 +27,10 @@ public class DriverPrioritising {
     
     // Groups timetable for a week
     private static int [][] weekdaysGroups = {
-    {1,4,5,6,7},
-    {1,2,5,6,7},
-    {1,2,3,6,7},
-    {1,2,3,4,7},
+    {4,5,6,7,1},
+    {5,6,7,1,2},
+    {6,7,1,2,3},
+    {7,1,2,3,4},
     {1,2,3,4,5},
     {2,3,4,5,6},
     {3,4,5,6,7}
