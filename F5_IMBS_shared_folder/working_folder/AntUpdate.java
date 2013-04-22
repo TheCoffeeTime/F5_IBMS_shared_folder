@@ -24,8 +24,8 @@ public class AntUpdate
         //Driver ID given when driver logs in to system. 
         int driverID = 2012;
         database.openBusDatabase();
-        Date dateTo = new Date(2013, 1,10,0,0,0);
-        Date dateFrom = new Date(2013,1,5,0,0,0);
+        GregorianCalendar dateTo = new GregorianCalendar(2013, 1,10,0,0,0);
+        GregorianCalendar dateFrom = new GregorianCalendar(2013,1,5,0,0,0);
         Update.updateHolidayRequest(dateFrom, dateTo, driverID);
     }
     

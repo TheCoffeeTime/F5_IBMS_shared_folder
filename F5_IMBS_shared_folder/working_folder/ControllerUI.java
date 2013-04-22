@@ -4,6 +4,8 @@ import java.awt.Component;
 import javax.swing.table.*;
 import java.awt.event.*;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 import javax.swing.*;
 
 public class ControllerUI extends javax.swing.JFrame {
@@ -113,8 +115,8 @@ public class ControllerUI extends javax.swing.JFrame {
         }
         //</editor-fold>
          database.openBusDatabase();
-       Date dateFrom = new Date(2013, 2, 22, 0, 0, 0);
-       Date dateTo = new Date(2013, 2, 28, 0, 0, 0);
+       GregorianCalendar dateFrom = new GregorianCalendar(2013, 2, 22, 0, 0, 0);
+       GregorianCalendar dateTo = new GregorianCalendar(2013, 2, 28, 0, 0, 0);
        RoasterGenerator.GenerateRoaster(dateFrom, dateTo);
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

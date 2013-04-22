@@ -25,20 +25,20 @@ public class RoasterGenerator
     A method that used to generate a roaster given DateFrom and DateTo. 
     A Roaster Object will be created from the dateFrom and dateTo given
   */ 
-  public static void GenerateRoaster(Date dateFrom, Date dateTo)
+  public static void GenerateRoaster(GregorianCalendar dateFrom, GregorianCalendar dateTo)
   {
     int interval = ValidateHolidayRequest.calculateInterval(dateFrom, dateTo);
     ArrayList<ArrayList<Shift>> shift = new ArrayList<ArrayList<Shift>>(7);
     
     //Use calendar to increase the date
     GregorianCalendar currentCal = new GregorianCalendar
-      (dateFrom.getYear(), dateFrom.getMonth(), 
-      dateFrom.getDate(), 0, 0, 0);    
+      (dateFrom.get(Calendar.YEAR), dateFrom.get(Calendar.MONTH), 
+      dateFrom.get(Calendar.DATE), 0, 0, 0);    
     
     //A date object to be used in the for loop below. It get the value from 
     //the calendar. 
-    Date currentDate = new Date(dateFrom.getYear(), dateFrom.getMonth(), 
-                                dateFrom.getDate(), 0, 0, 0);
+    GregorianCalendar currentDate = new GregorianCalendar(dateFrom.get(Calendar.YEAR), dateFrom.get(Calendar.MONTH), 
+                                dateFrom.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
        
     for(int i = 0; i < interval; i++)
     {
@@ -46,15 +46,16 @@ public class RoasterGenerator
       System.out.println("Generating a roster for day " + (i+1));
       shift.add(GenerateADayRoaster(currentDate));
       currentCal.add(Calendar.DATE, 1);
-      currentDate.setDate(currentCal.get(Calendar.DATE));
-      currentDate.setMonth(currentCal.get(Calendar.MONTH));
-      currentDate.setYear(currentCal.get(Calendar.YEAR));
+      currentDate.set(currentCal.get(Calendar.YEAR), currentCal.get(Calendar.MONTH), currentCal.get(Calendar.DATE));
     }//for
     
     //Create a roaster object. 
     roster = new Roaster
-            (currentCal.get(Calendar.MONTH), currentCal.get(Calendar.YEAR), 
+            (dateFrom.get(Calendar.MONTH), dateFrom.get(Calendar.YEAR), 
             shift, dateFrom, dateTo);
+    
+    RoasterFiles.saveFile("roaster", roster);
+    
     
   }//GenerateRoaster
   
@@ -62,7 +63,7 @@ public class RoasterGenerator
     A method that generate an array of shifts. This represents a roaster for 
     one day. 
   */
-  public static ArrayList<Shift> GenerateADayRoaster(Date date)
+  public static ArrayList<Shift> GenerateADayRoaster(GregorianCalendar date)
   {
     System.out.println("Creating array of durations...");
     ArrayList<Duration> duration358Weekday = GenerateDuration.generateDuration(date, 67, 68);
@@ -93,7 +94,7 @@ public class RoasterGenerator
   /*A Method to assigne drivers to shifts.
    * @author Henryka Reszka
    */
-  public static ArrayList<Shift> AssignDriverToShift(ArrayList<Shift> driverShift, Date date)
+  public static ArrayList<Shift> AssignDriverToShift(ArrayList<Shift> driverShift, GregorianCalendar date)
   {
     AssignDummyDriverToShift(driverShift);
     //create an array of drivers  
@@ -184,16 +185,17 @@ public class RoasterGenerator
                 rosterGUI[j][i] = "";
             }//for
         }
-        Date dateFrom = roster.dateFrom;
+        GregorianCalendar dateFrom = roster.dateFrom;
         
         //Create a new calendar for current date
         GregorianCalendar currentCal = new GregorianCalendar
-             (dateFrom.getYear(), dateFrom.getMonth(), 
-              dateFrom.getDate(), 0, 0, 0);
+             (dateFrom.get(Calendar.YEAR), dateFrom.get(Calendar.MONTH), 
+              dateFrom.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
 
         int dayIncreasedBy = 0;
-        Date requiredDate = new Date(dateFrom.getYear(), dateFrom.getMonth(), 
-                                dateFrom.getDate(), 0, 0, 0);
+        GregorianCalendar requiredDate = new GregorianCalendar
+                                 (dateFrom.get(Calendar.YEAR), dateFrom.get(Calendar.MONTH), 
+              dateFrom.get(Calendar.DAY_OF_MONTH));
 
         while(true) 
         { 
@@ -205,16 +207,15 @@ public class RoasterGenerator
             else
                 break;
         }//while
-        requiredDate.setDate(currentCal.get(Calendar.DATE));
-        requiredDate.setMonth(currentCal.get(Calendar.MONTH));
-        requiredDate.setYear(currentCal.get(Calendar.YEAR));
-        System.out.println("Match date = " + requiredDate.getDate());
+        requiredDate.set(currentCal.get(Calendar.YEAR), currentCal.get(Calendar.MONTH),currentCal.get(Calendar.DATE));
+        System.out.println("Match date = " + requiredDate.get(Calendar.DATE) + "/" + requiredDate.get(Calendar.MONTH) + "/" + requiredDate.get(Calendar.YEAR));
 
         //For day. 
         int starting = 300; //Start at 5:00 am -> 300/60 = 5:00
         int minsInHr = 60;
+        System.out.println(roster.shift.get(dayIncreasedBy).size());
         for(int i = 0; i < roster.shift.get(dayIncreasedBy).size(); i++)
-        {
+        {    
             int service = 0;
             switch (roster.shift.get(dayIncreasedBy).get(i).getRouteID())
             {
@@ -236,6 +237,7 @@ public class RoasterGenerator
               index++;
             }while(index * minsInHr < currentShift.getTimeTo() - starting);
         }//for
+    
     return rosterGUI;
     }//dayGUI
 }//class

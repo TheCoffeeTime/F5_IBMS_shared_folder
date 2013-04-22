@@ -2,6 +2,7 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +40,9 @@ public class DriverPrioritising {
     // method use date and number of drivers to calculate the correct groups to work on that day
     // along with the correct drivers
     // returns 2D array [group] [workers in that group]
-    public static ArrayList<Integer> getDrivers(Date date, int numberOfDrivers)
+    public static ArrayList<Integer> getDrivers(GregorianCalendar date, int numberOfDrivers)
     {
+        //Date newDate = new Date(date.MILLISECOND);
         int[] groupsWorkingOnDate = getGroupsInAWeekday(date);
         groupDrivers = groupDrivers();
         
@@ -94,7 +96,7 @@ public class DriverPrioritising {
     }
     
     public static ArrayList<ArrayList<Integer>> addGroup(int numberOfDrivers, int numberOfDriversPerGroup,
-                                                         int[] groupsWorkingOnDate, Date date)
+                                                         int[] groupsWorkingOnDate, GregorianCalendar date)
     {
         ArrayList<ArrayList<Integer>> groups = new ArrayList<ArrayList<Integer>>();
         
@@ -111,7 +113,7 @@ public class DriverPrioritising {
     
     // author Nikita
     public static ArrayList<Integer> prioritiseDriversInGroup(ArrayList<Integer> group,
-                                                              int numberOfDriversPerGroup, Date date)
+                                                              int numberOfDriversPerGroup, GregorianCalendar date)
     {
         int prioritisedDriver;
         ArrayList<Integer> groupPrioritised = new ArrayList<Integer>();
@@ -133,10 +135,10 @@ public class DriverPrioritising {
         return groupPrioritised;
     }
     
-    public static int[] getGroupsInAWeekday(Date date)
+    public static int[] getGroupsInAWeekday(GregorianCalendar date)
     {
         Calendar c = Calendar.getInstance();
-        c.setTime(date);
+        c.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
         int[] groupsInAWeekday = weekdaysGroups[c.get(Calendar.DAY_OF_WEEK) - 1];
         return groupsInAWeekday;
     }
@@ -162,7 +164,7 @@ public class DriverPrioritising {
     }
     
     // Search through database and prioritise a driver in that group
-    public static int calculatePriority(ArrayList<Integer> group, Date date)
+    public static int calculatePriority(ArrayList<Integer> group, GregorianCalendar date)
     {
         int chosenDriver = - 1;
         
@@ -251,17 +253,18 @@ public class DriverPrioritising {
     public static void main (String[] args)
     {
         database.openBusDatabase();
-        Date test = new Date(2013, 2, 16);
+        GregorianCalendar testCal = new GregorianCalendar(2013, 2, 15);
         ArrayList<Integer> groupsThatCanWork = new ArrayList<Integer>();
-        groupsThatCanWork = getDrivers(test, 24);
+        groupsThatCanWork = getDrivers(testCal, 24);
         
         for (int i = 0; i < groupsThatCanWork.size(); i++)
         {
             System.out.println("Driver that can work: " + groupsThatCanWork.get(i) + " " + (i+1));
         }
-        int[] dayGroups = getGroupsInAWeekday(test);
+        System.out.println(testCal.toString());
+        int[] dayGroups = getGroupsInAWeekday(testCal);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM");
-        System.out.println("Groups for " + dateFormat.format(test) + ": ");
+        System.out.println("Groups for " + dateFormat.format(testCal) + ": ");
         
         for (int i = 0; i < dayGroups.length; i++)
         {

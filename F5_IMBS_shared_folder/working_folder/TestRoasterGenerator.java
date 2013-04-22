@@ -1,5 +1,6 @@
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /*
  * To change this template, choose Tools | Templates
@@ -14,8 +15,8 @@ public class TestRoasterGenerator {
     public static void main(String[] args)
     {
         database.openBusDatabase();
-        Date dStart = new Date(2013, 2, 21, 0, 0, 0);
-        Date dEnd = new Date(2013, 2, 27, 0, 0, 0);      
+        GregorianCalendar dStart = new GregorianCalendar(2013, 2, 21, 0, 0, 0);
+        GregorianCalendar dEnd = new GregorianCalendar(2013, 2, 27, 0, 0, 0);      
         RoasterGenerator.GenerateRoaster(dStart, dEnd);
         /*
         for(int i = 0; i < r.shift.get(0).size(); i++)

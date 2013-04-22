@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /*
  * To change this template, choose Tools | Templates
@@ -18,9 +19,9 @@ public class TestGenerateArrayOfShift {
     public static void main(String[] args)
     {
         // generate some days to test
-        Date weekdayDate =  new Date(2013, 02, 13);
-        Date saturdayDate = new Date(2013, 02, 15);
-        Date sundayDate = new Date(2013, 02, 16);
+        GregorianCalendar weekdayDate =  new GregorianCalendar(2013, 02, 13);
+        GregorianCalendar saturdayDate = new GregorianCalendar(2013, 02, 15);
+        GregorianCalendar sundayDate = new GregorianCalendar(2013, 02, 16);
         
         // SO GENERATE DURATIONS FOR EACH A GIVEN DATE AND FOR EACH ROUTE, THE GENERATE AN ARRAY OF SHIFTS FOR EACH CORRESPONDING DURATION
         // WE DO THIS 3 TIMES, ONE FOR EACH ROUTE

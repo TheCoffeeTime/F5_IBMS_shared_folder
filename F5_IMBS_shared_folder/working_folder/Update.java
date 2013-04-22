@@ -20,7 +20,7 @@ public class Update {
                   = new SystemMsg();
     
     public static void updateHolidayRequest
-            (Date dateFrom, Date dateTo, int driverID)
+            (GregorianCalendar dateFrom, GregorianCalendar dateTo, int driverID)
     {
         int holidayLength = 
             ValidateHolidayRequest.calculateInterval(dateFrom, dateTo);
@@ -29,20 +29,21 @@ public class Update {
         DriverInfo.setHolidaysTaken(driverID, holidayLength+oldLength);
         
         GregorianCalendar currentCal = new GregorianCalendar
-            (dateFrom.getYear(), dateFrom.getMonth(), 
-             dateFrom.getDate(), 0, 0, 0);
+            (dateFrom.YEAR, dateFrom.MONTH, 
+             dateFrom.DATE, 0, 0, 0);
          
-        Date currentDate = new Date(dateFrom.getYear(), dateFrom.getMonth(),
-                                    dateFrom.getDate(), 0, 0, 0);
+        GregorianCalendar currentDate = new GregorianCalendar(dateFrom.YEAR, dateFrom.MONTH,
+                                    dateFrom.DATE, 0, 0, 0);
+ 
         do
         {
+            Date copyOfCurrentDate = new Date(currentDate.getTimeInMillis());
             //System.out.println("Current date:" + currentDate.getDate());
-            DriverInfo.setAvailable(driverID, currentDate, false);
+            DriverInfo.setAvailable(driverID, copyOfCurrentDate, false);
             currentCal.add(Calendar.DATE, 1);
-            currentDate.setDate(currentCal.get(Calendar.DATE));
-            currentDate.setMonth(currentCal.get(Calendar.MONTH));
-            currentDate.setYear(currentCal.get(Calendar.YEAR));
+            currentDate.set(currentCal.get(Calendar.YEAR), currentCal.get(Calendar.MONTH), currentCal.get(Calendar.DATE));
             //System.out.println("UPDATED!");
+            
 
         }while(!currentDate.after(dateTo));
         systemMsg .message =("Your vacation was successfully registred in our system."

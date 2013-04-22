@@ -122,9 +122,9 @@ public class Cal extends JPanel {
 
   /** ADDED BY NIKITA */
 
-  public Date getDate()
+  public GregorianCalendar getDate()
   {
-      Date selectedDate = new Date(yy, mm, dd, 0, 0, 0);
+      GregorianCalendar selectedDate = new GregorianCalendar(yy, mm, dd, 0, 0, 0);
       //System.out.println("YEAR: " + selectedDate.getYear());
       return selectedDate;
   }
@@ -284,7 +284,7 @@ public class Cal extends JPanel {
       labs[0][i].setText("");
       labs[0][i].setBackground(unusedDays);
     }
-    Date dateToCheck = new Date(yy, mm, dd, 0, 0, 0);
+    GregorianCalendar dateToCheck = new GregorianCalendar(yy, mm, dd, 0, 0, 0);
     // Fill in numbers for the day of month.
     for (int i = 1; i <= daysInMonth; i++) {
       JButton b = labs[(leadGap + i - 1) / 7][(leadGap + i - 1) % 7];
@@ -292,7 +292,7 @@ public class Cal extends JPanel {
       // ADDED BY ME
       b.setBackground(availableDays);
       
-      dateToCheck = new Date(yy, mm, i, 0, 0, 0);
+      dateToCheck = new GregorianCalendar(yy, mm, i, 0, 0, 0);
       if (ValidateHolidayRequest.dateAvailable(dateToCheck, driverID) == 1)
       {
         b.setBackground(availableDays);
@@ -370,7 +370,7 @@ public class Cal extends JPanel {
     if (activeDay > 0) {
       b = labs[(leadGap + activeDay - 1) / 7][(leadGap + activeDay - 1) % 7];
       //b.setBackground(b0.getBackground());
-      Date dateToCheck = new Date(yy, mm, activeDay, 0, 0, 0);
+      GregorianCalendar dateToCheck = new GregorianCalendar(yy, mm, activeDay, 0, 0, 0);
       
       if (ValidateHolidayRequest.dateAvailable(dateToCheck, driverID) == 1)
       {

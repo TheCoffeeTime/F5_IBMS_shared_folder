@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 /*
  * To change this template, choose Tools | Templates
@@ -16,9 +18,9 @@ public class TestGenerateDuration {
     public static void main(String[] args)
     {
       database.openBusDatabase();
-      Date dateWeek =  new Date(2013, 02, 13);
-      Date dateSat =  new Date(2013, 02, 15);
-      Date dateSun =  new Date(2013, 02, 16);
+      GregorianCalendar dateWeek =  new GregorianCalendar(2013, 02, 13);
+      GregorianCalendar dateSat =  new GregorianCalendar(2013, 02, 15);
+      GregorianCalendar dateSun =  new GregorianCalendar(2013, 02, 16);
       
       ArrayList<Duration> duration358Week = GenerateDuration.generateDuration(dateWeek, 67, 68);
       ArrayList<Duration> duration383Week = GenerateDuration.generateDuration(dateWeek, 65);

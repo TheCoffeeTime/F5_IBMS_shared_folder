@@ -9,19 +9,20 @@
  */
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class TestPrioritiesGroup {
     
     public static void main(String[] args)
     {
         // get an array for rach day
-        int[] mondayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 10));
-        int[] tuesdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 12));
-        int[] wednesdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 12));
-        int[] thursdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 13));
-        int[] fridayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 14));
-        int[] saturdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 15));
-        int[] sundayGroupArray = DriverPrioritising.getGroupsInAWeekday(new Date(2013, 02, 16));
+        int[] mondayGroupArray = DriverPrioritising.getGroupsInAWeekday(new GregorianCalendar(2013, 02, 10));
+        int[] tuesdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new GregorianCalendar(2013, 02, 12));
+        int[] wednesdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new GregorianCalendar(2013, 02, 12));
+        int[] thursdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new GregorianCalendar(2013, 02, 13));
+        int[] fridayGroupArray = DriverPrioritising.getGroupsInAWeekday(new GregorianCalendar(2013, 02, 14));
+        int[] saturdayGroupArray = DriverPrioritising.getGroupsInAWeekday(new GregorianCalendar(2013, 02, 15));
+        int[] sundayGroupArray = DriverPrioritising.getGroupsInAWeekday(new GregorianCalendar(2013, 02, 16));
         
         System.out.println("Now check that there is 5 groups per day");
         testGroupSize(mondayGroupArray);
@@ -58,13 +59,13 @@ public class TestPrioritiesGroup {
         
         // make arraylist of all drivers working in on a day, after they ahve been prioritised
         // so only drivers who have worked the least horus should be working
-        ArrayList<Integer> group1 = DriverPrioritising.prioritiseDriversInGroup(groups.get(0), numberOfDriversPerGroupTest1, new Date(2013, 02, 10));
-        ArrayList<Integer> group2 = DriverPrioritising.prioritiseDriversInGroup(groups.get(1), numberOfDriversPerGroupTest2, new Date(2013, 02, 10));
-        ArrayList<Integer> group3 = DriverPrioritising.prioritiseDriversInGroup(groups.get(2), numberOfDriversPerGroupTest3, new Date(2013, 02, 10));
-        ArrayList<Integer> group4 = DriverPrioritising.prioritiseDriversInGroup(groups.get(3), numberOfDriversPerGroupTest4, new Date(2013, 02, 10));
-        ArrayList<Integer> group5 = DriverPrioritising.prioritiseDriversInGroup(groups.get(4), numberOfDriversPerGroupTest5, new Date(2013, 02, 10));
-        ArrayList<Integer> group6 = DriverPrioritising.prioritiseDriversInGroup(groups.get(5), numberOfDriversPerGroupTest6, new Date(2013, 02, 10));
-        ArrayList<Integer> group7 = DriverPrioritising.prioritiseDriversInGroup(groups.get(6), numberOfDriversPerGroupTest7, new Date(2013, 02, 10));
+        ArrayList<Integer> group1 = DriverPrioritising.prioritiseDriversInGroup(groups.get(0), numberOfDriversPerGroupTest1, new GregorianCalendar(2013, 02, 10));
+        ArrayList<Integer> group2 = DriverPrioritising.prioritiseDriversInGroup(groups.get(1), numberOfDriversPerGroupTest2, new GregorianCalendar(2013, 02, 10));
+        ArrayList<Integer> group3 = DriverPrioritising.prioritiseDriversInGroup(groups.get(2), numberOfDriversPerGroupTest3, new GregorianCalendar(2013, 02, 10));
+        ArrayList<Integer> group4 = DriverPrioritising.prioritiseDriversInGroup(groups.get(3), numberOfDriversPerGroupTest4, new GregorianCalendar(2013, 02, 10));
+        ArrayList<Integer> group5 = DriverPrioritising.prioritiseDriversInGroup(groups.get(4), numberOfDriversPerGroupTest5, new GregorianCalendar(2013, 02, 10));
+        ArrayList<Integer> group6 = DriverPrioritising.prioritiseDriversInGroup(groups.get(5), numberOfDriversPerGroupTest6, new GregorianCalendar(2013, 02, 10));
+        ArrayList<Integer> group7 = DriverPrioritising.prioritiseDriversInGroup(groups.get(6), numberOfDriversPerGroupTest7, new GregorianCalendar(2013, 02, 10));
         
         
         // print off all the drivers that are working in each group

@@ -2,6 +2,8 @@
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 /*
  * To change this template, choose Tools | Templates
@@ -22,9 +24,10 @@ public class GenerateDuration {
     // this method creates an array of durations, 
     // see duration class for attributes of object, is used for 383 adn 384 services to return durations
     // also used for 358out and 358back to return durations for them
-    public static ArrayList<Duration> generateDuration(Date date, int route)
+    public static ArrayList<Duration> generateDuration(GregorianCalendar gregorianDate, int route)
     {
         //database.openBusDatabase();
+        Date date = new Date((long)gregorianDate.getTimeInMillis());
         int noOfServices = TimetableInfo.getNumberOfServices(route, date);
         int[] serviceTimes;
         int[] services = TimetableInfo.getServices(route, TimetableInfo.timetableKind(date));
@@ -105,7 +108,7 @@ public class GenerateDuration {
     
     // this method specificaly for 358 service, combines the 358 out journey with the 358 back journey
     // along with correct bus numbers for each journey
-    public static ArrayList<Duration> generateDuration(Date date, int route358Out, int route358Back)
+    public static ArrayList<Duration> generateDuration(GregorianCalendar date, int route358Out, int route358Back)
     {
         //database.openBusDatabase();
         
@@ -175,7 +178,7 @@ public class GenerateDuration {
      public static void main(String[] args)
      {
         database.openBusDatabase();
-        Date date =  new Date(2013, 02, 16);
+        GregorianCalendar date =  new GregorianCalendar(2013, 02, 15);
         ArrayList<Duration> duration358 = generateDuration(date, 67, 68);
         ArrayList<Duration> duration383 = generateDuration(date, 65);
         ArrayList<Duration> duration384 = generateDuration(date, 66);

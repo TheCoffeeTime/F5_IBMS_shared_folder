@@ -119,7 +119,8 @@ public class Group {
       }
 
       // Print Groups for a specific Date
-      Date test = new Date(2013, 2, 9);
+      GregorianCalendar testG = new GregorianCalendar(2013, 2, 9);
+      Date test = new Date(testG.getTimeInMillis());
       int[] dayGroups = getGroupsInAWeekday(test);
       SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM");
       System.out.println("Groups for " + dateFormat.format(test) + ": ");
@@ -138,7 +139,7 @@ public class Group {
        }
        
        ArrayList<Integer> groupsThatCanWork = new ArrayList<Integer>();
-       groupsThatCanWork = DriverPrioritising.getDrivers(test, 44);
+       groupsThatCanWork = DriverPrioritising.getDrivers(testG, 44);
         
         for (int i = 0; i < groupsThatCanWork.size(); i++)
         {

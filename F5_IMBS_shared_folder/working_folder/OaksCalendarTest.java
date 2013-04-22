@@ -13,8 +13,8 @@ public class OaksCalendarTest
     //System.out.println(currentCal.get(Calendar.MONTH));
     //currentCal.add(Calendar.DATE, 1);
     //System.out.println(currentCal.get(Calendar.MONTH));
-    Date a = new Date(2012, 11, 30, 0, 0, 0);
-    Date b = new Date(2013, 0, 10, 0, 0, 0);
+    GregorianCalendar a = new GregorianCalendar(2012, 11, 30, 0, 0, 0);
+    GregorianCalendar b = new GregorianCalendar(2013, 0, 10, 0, 0, 0);
     database.openBusDatabase();
     ValidateHolidayRequest.validateRequest(a, b, 2013);
     //System.out.println(ValidateRequest.HREM.dateExceptionMsg);

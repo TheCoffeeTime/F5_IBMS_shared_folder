@@ -1,5 +1,6 @@
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /*
  * To change this template, choose Tools | Templates
@@ -16,15 +17,17 @@ public class TestDriverRequestHoliday {
         //-------------------------------------------------------------------
         //Test ValidateRequestHoliday.dateAvailable
         database.openBusDatabase();
-        Date a = new Date(2013, 0, 10, 0, 0, 0);
+        GregorianCalendar testDate = new GregorianCalendar(2013, 0, 10, 0, 0, 0);
         int[] driverIDs = DriverInfo.getDrivers();
+        
+        Date a = new Date(testDate.getTimeInMillis());
         
         
         //Set every driver to be false on 10/01/13
         //except himself
         setAllFalse(a);
         DriverInfo.setAvailable(2012, a, true);
-        if(ValidateHolidayRequest.dateAvailable(a, 2012) == 0)
+        if(ValidateHolidayRequest.dateAvailable(testDate, 2012) == 0)
         {
             System.out.println("Test Pass: dateAvailable: All False");
         }
@@ -35,7 +38,7 @@ public class TestDriverRequestHoliday {
         
         //Set every driver to be true on 10/01/13
         setAllTrue(a);
-        if(ValidateHolidayRequest.dateAvailable(a, 2012) == 1)
+        if(ValidateHolidayRequest.dateAvailable(testDate, 2012) == 1)
         {
             System.out.println("Test Pass: dateAvailable: All True");
         }
@@ -49,7 +52,7 @@ public class TestDriverRequestHoliday {
         {
             DriverInfo.setAvailable(driverIDs[i], a, false);
         }//for
-        if(ValidateHolidayRequest.dateAvailable(a, 2012) == 1)
+        if(ValidateHolidayRequest.dateAvailable(testDate, 2012) == 1)
         {
             System.out.println("Test Pass: dateAvailable: 9 Drivers false");
         }
@@ -64,7 +67,7 @@ public class TestDriverRequestHoliday {
         {
             DriverInfo.setAvailable(driverIDs[i], a, false);
         }//for
-        if(ValidateHolidayRequest.dateAvailable(a, 2012) == 0)
+        if(ValidateHolidayRequest.dateAvailable(testDate, 2012) == 0)
         {
             System.out.println
                     ("Test Pass: dateAvailable: 10 Drivers false");
@@ -77,7 +80,7 @@ public class TestDriverRequestHoliday {
         
         //Set every driver to be false on 10/01/13
         setAllFalse(a);
-        if(ValidateHolidayRequest.dateAvailable(a, 2012) == 2)
+        if(ValidateHolidayRequest.dateAvailable(testDate, 2012) == 2)
         {
             System.out.println("Test Pass: dateAvailable: All False");
         }
@@ -87,9 +90,13 @@ public class TestDriverRequestHoliday {
         }//else
        //-------------------------------------------------------------------
        //Test Driver Interface red and green squares
-       Date five = new Date(2013, 0, 5, 0, 0, 0); 
-       Date six = new Date(2013, 0, 6, 0, 0, 0);  
-       Date seven = new Date(2013, 0, 7, 0, 0, 0);  
+       GregorianCalendar testFive = new GregorianCalendar(2013, 0, 5, 0, 0, 0); 
+       GregorianCalendar testSix = new GregorianCalendar(2013, 0, 6, 0, 0, 0);  
+       GregorianCalendar testSeven = new GregorianCalendar(2013, 0, 7, 0, 0, 0);  
+       
+       Date five = new Date(testFive.getTimeInMillis());
+       Date six = new Date(testSix.getTimeInMillis());
+       Date seven = new Date(testSeven.getTimeInMillis());
        setAllFalse(five);
        setAllFalse(six);
        setAllFalse(seven);
@@ -105,14 +112,22 @@ public class TestDriverRequestHoliday {
        //--------------------------------------------------------------------
        //Test ValidateRequestHoliday.validateRequest()
        Date b, c, d, e;
-       a = new Date(2013, 0, 10, 0, 0, 0);
-       b = new Date(2013, 0, 11, 0, 0, 0);
-       c = new Date(2013, 0, 12, 0, 0, 0);
-       d = new Date(2013, 0, 13, 0, 0, 0);
-       e = new Date(2013, 0, 14, 0, 0, 0);
+       GregorianCalendar testDateA, testDateB, testDateC, testDateD, testDateE;
+       
+       testDateA = new GregorianCalendar(2013, 0, 10, 0, 0, 0);
+       testDateB = new GregorianCalendar(2013, 0, 11, 0, 0, 0);
+       testDateC = new GregorianCalendar(2013, 0, 12, 0, 0, 0);
+       testDateD = new GregorianCalendar(2013, 0, 13, 0, 0, 0);
+       testDateE = new GregorianCalendar(2013, 0, 14, 0, 0, 0);
+       
+       a = new Date(testDateA.getTimeInMillis());
+       b = new Date(testDateA.getTimeInMillis());
+       c = new Date(testDateA.getTimeInMillis());
+       d = new Date(testDateA.getTimeInMillis());
+       e = new Date(testDateA.getTimeInMillis());
        //One day true
        setAllTrue(a);
-       if(ValidateHolidayRequest.validateRequest(a, a, 2013))
+       if(ValidateHolidayRequest.validateRequest(testDateA, testDateA, 2013))
        {
            System.out.println("Test Pass: validateRequest: One day true");
        }
@@ -127,7 +142,7 @@ public class TestDriverRequestHoliday {
        setAllTrue(c);
        setAllTrue(d);
        setAllTrue(e);
-       if(ValidateHolidayRequest.validateRequest(a, e, 2013))
+       if(ValidateHolidayRequest.validateRequest(testDateA, testDateE, 2013))
        {
            System.out.println("Test Pass: validateRequest: 5 days all true");
        }
@@ -138,7 +153,7 @@ public class TestDriverRequestHoliday {
        
        //4th date is false the rest are true
        setAllFalse(d);
-       if(!ValidateHolidayRequest.validateRequest(a, e, 2013))
+       if(!ValidateHolidayRequest.validateRequest(testDateA, testDateE, 2013))
        {
            System.out.println("Test Pass: validateRequest: 4 trues, 1 fault");
        }
@@ -148,7 +163,7 @@ public class TestDriverRequestHoliday {
        }//else
        
        //Date from is greater than date to
-       if(!ValidateHolidayRequest.validateRequest(e, a, 2013))
+       if(!ValidateHolidayRequest.validateRequest(testDateA, testDateE, 2013))
        {
            System.out.println("Test Pass: validateRequest: start date is after finish date");
        }
@@ -158,13 +173,18 @@ public class TestDriverRequestHoliday {
        }//else   
        
        //Over the year
-       a = new Date(2012, 11, 31, 0, 0, 0);
-       b = new Date(2013, 0, 1, 0, 0, 0);
-       c = new Date(2013, 0, 2, 0, 0, 0);
+       
+       testDateA = new GregorianCalendar(2012, 11, 31, 0, 0, 0);
+       testDateB = new GregorianCalendar(2012, 0, 1, 0, 0, 0);
+       testDateC = new GregorianCalendar(2012, 0, 2, 0, 0, 0);
+       
+       a = new Date(testDateA.getTimeInMillis());
+       b = new Date(testDateB.getTimeInMillis());
+       c = new Date(testDateC.getTimeInMillis());
        setAllTrue(a);
        setAllTrue(b);
        setAllTrue(c);
-       if(ValidateHolidayRequest.validateRequest(a, c, 2013))
+       if(ValidateHolidayRequest.validateRequest(testDateA, testDateC, 2013))
        {
            System.out.println("Test Pass: validateRequest: over the year");
        }
@@ -174,11 +194,14 @@ public class TestDriverRequestHoliday {
        }//else  
        
        //Length > 25 within the same year
-       Date[] dateArray = new Date[30];
+       GregorianCalendar[] dateArray = new GregorianCalendar[30];
+       Date temp;
        for(int i = 0; i < dateArray.length; i++)
        {
-           dateArray[i] = new Date(2012, 11, i+1, 0, 0, 0);
-           setAllTrue(dateArray[i]);
+           
+           dateArray[i] = new GregorianCalendar(2012, 11, i+1, 0, 0, 0);
+           temp = new Date(dateArray[i].getTimeInMillis());
+           setAllTrue(temp);
        }//for
        if(!ValidateHolidayRequest.validateRequest
                (dateArray[0], dateArray[dateArray.length-1], 2013))
@@ -191,17 +214,19 @@ public class TestDriverRequestHoliday {
        }//else  
        
        //Length > 25 within the same year
-       dateArray = new Date[15];
-       Date[] dateArray2 = new Date[15];
+       dateArray = new GregorianCalendar[15];
+       GregorianCalendar[] dateArray2 = new GregorianCalendar[15];
        for(int i = 0; i < dateArray.length; i++)
        {
-           dateArray[i] = new Date(2012, 11, i+17, 0, 0, 0);
-           setAllTrue(dateArray[i]);
+           dateArray[i] = new GregorianCalendar(2012, 11, i+17, 0, 0, 0);
+           temp = new Date(dateArray[i].getTimeInMillis());
+           setAllTrue(temp);
        }//for
        for(int i = 0; i < dateArray2.length; i++)
        {
-           dateArray2[i] = new Date(2013, 0, i+1, 0, 0, 0);
-           setAllTrue(dateArray2[i]);
+           dateArray2[i] = new GregorianCalendar(2013, 0, i+1, 0, 0, 0);
+           temp = new Date(dateArray2[i].getTimeInMillis());
+           setAllTrue(temp);
        }//for
        if(ValidateHolidayRequest.validateRequest
                (dateArray[0], dateArray2[dateArray2.length-1], 2013))
@@ -218,11 +243,12 @@ public class TestDriverRequestHoliday {
        //--------------------------------------------------------------------
        //Update test
        DriverInfo.setHolidaysTaken(2012, 0);
-       dateArray = new Date[30];
+       dateArray = new GregorianCalendar[30];
        for(int i = 0; i < dateArray.length; i++)
        {
-           dateArray[i] = new Date(2012, 11, i+1, 0, 0, 0);
-           setAllTrue(dateArray[i]);
+           dateArray[i] = new GregorianCalendar(2012, 11, i+1, 0, 0, 0);
+           temp = new Date(dateArray2[i].getTimeInMillis());
+           setAllTrue(temp);
        }//for
        //30 days
        Update.updateHolidayRequest(dateArray[0], 
@@ -240,7 +266,8 @@ public class TestDriverRequestHoliday {
        boolean pass = true;
        for(int i = 0; i < dateArray.length; i++)
        {
-           if(DriverInfo.isAvailable(2012, dateArray[i]))
+           temp = new Date(dateArray[i].getTimeInMillis());
+           if(DriverInfo.isAvailable(2012, temp))
                 pass = false;
        }//for
         if(pass)

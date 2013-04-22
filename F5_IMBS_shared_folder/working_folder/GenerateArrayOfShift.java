@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.Iterator;
 
 /*
@@ -122,7 +124,7 @@ public class GenerateArrayOfShift {
         // in 2 of them duration is longer than 1400 m.
         
         // Nathan's test code from main in GenerateDuration
-        Date date =  new Date(2013, 02, 13);
+        GregorianCalendar date =  new GregorianCalendar(2013, 02, 13);
         ArrayList<Duration> duration358 = GenerateDuration.generateDuration(date, 67, 68);
         ArrayList<Duration> duration383 = GenerateDuration.generateDuration(date, 65);
        
